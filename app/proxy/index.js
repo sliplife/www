@@ -3,7 +3,8 @@ const internals = {
   getProxyUri: (request) => {
 
     // return `${request.headers['x-forwarded-proto'] || request.connection.info.protocol}://${request.info.hostname}:${request.server.app.config.api.port}/${request.params.path}${request.url.search}`;
-    return `https://api.sliplife.dev/${request.params.path}${request.url.search}`;
+    const domain = (process.env.NODE_ENV !== 'production') ? 'api.sliplife.dev' : 'api.sliplife.com';
+    return `https://${domain}/${request.params.path}${request.url.search}`;
   }
 };
 

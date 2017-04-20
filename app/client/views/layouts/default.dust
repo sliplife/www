@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+  <head>
+      <title>
+        SlipLife
+      </title>
+      <meta charset="utf-8" />
+      <meta http-equiv="X-UA-Compatible" content="IE=edge">
+      <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no, user-scalable=no, maximum-scale=1, minimal-ui">
+      <link href="/assets/images/pirate.png" rel="shortcut icon" type="image/x-icon" />
+      <link rel="stylesheet" type="text/css" href="/assets/css/screen.css" />
+      <link href="https://fonts.googleapis.com/css?family=Arvo" rel="stylesheet">
+  </head>
+  <body>
+    <div id="app"></div>
+    <div class="ocean floor"></div>
+    <script src="/assets/js/main.js"></script>
+    <script type="text/javascript" src="https://js.stripe.com/v2/"></script>
+  </body>
+</html>

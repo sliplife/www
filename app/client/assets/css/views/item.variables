@@ -1,0 +1,9 @@
+/*******************************
+         Item
+*******************************/
+
+@headerColor: #FFFDD4;
+@headerLinkColor: #FFFDD4;
+@headerLinkHoverColor: #F9E4B2;
+@descriptionColor: #DEDEDE;
+@metaColor: rgba(234, 155, 0, .8);

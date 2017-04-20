@@ -1,0 +1,35 @@
+/*******************************
+         Site Settings
+*******************************/
+
+/* Page */
+@pageBackground      : rgba(0, 0, 0, .45);
+
+/* Font */
+@headerFont        : 'Arvo', 'Helvetica Neue', Arial, Helvetica, sans-serif;
+@pageFont          : 'Arvo', 'Helvetica Neue', Arial, Helvetica, sans-serif;
+@fontSmoothing     : antialiased;
+@importGoogleFonts : true;
+@googleFontName    : 'Arvo';
+@googleFontSizes   : '400,700,400italic,700italic';
+@googleFontFamily  : '@{googleFontName}:@{googleFontSizes}';
+
+/* Brand Colors */
+@primaryColor     : #1483AA;
+@secondaryColor   : #0095DA;
+
+/* Colors */
+@blue: #7AB0C4;
+@red: #974843;
+@orange: #DE7832;
+
+/* Negative */
+@negativeTextColor: #974843;
+
+/* Focus */
+@primaryColorFocus: #1483AA;
+@focusedFormBorderColor: #004D92;
+@focusedFormMutedBorderColor: #004D92;
+
+/* Links */
+@linkColor     : #004D92;

@@ -1,0 +1,78 @@
+@import "../../node_modules/semantic-ui-less/themes/default/globals/site.variables";
+@import "../../node_modules/semantic-ui-less/semantic.less";
+@import (inline) "../../node_modules/nprogress/nprogress.css";
+@import (inline) "../../node_modules/biu.js/dist/biu.css";
+
+body {
+  background: #095493 url(/assets/images/waterline-top-bg.png) repeat-x;
+  display: flex;
+  flex-direction: column;
+  height: auto;
+  min-height: 100vh;
+  #app {
+    flex: 1;
+  }
+  .content {
+    >.grid {
+      padding: 0 !important;
+     >.row {
+        padding-bottom: 0 !important;
+        .four { /* list scroller column */
+          border-right: 1px solid #ECECEC;
+          min-height: 100vh;
+          overflow: auto;
+          padding-top: 0;
+
+        }
+        >.twelve { /* detail view column */
+          padding-left: 0 !important;
+          .row:last-of-type {
+            padding: 1em !important;
+          }
+        }
+        >.sixteen { /* item view only column */
+          padding-left: 0 !important;
+        }
+      }
+    }
+  }
+  .ocean.floor {
+    background: url(/assets/images/waterline-bottom-bg.png) bottom left repeat-x #095493;
+    width: 100vw;
+    height: 300px;
+    background-size: contain;
+    /*position: absolute;
+    bottom: 0;*/
+  }
+  /* SUI Overrides that I can't get to work using CSS modules. */
+  .ui.divided.items.spotlight-item-group > .item {
+    &:first-child {
+      padding-top: 1em !important;
+    }
+    &:last-child {
+      padding-bottom: 1em !important;
+    }
+  }
+  .nw-dropdown-component {
+    .ui.attached.button {
+      box-shadow: none !important;
+    }
+  }
+  /* npm package overrides */
+  #nprogress {
+    .bar {
+      background: #FFE263;
+    }
+    .spinner {
+      top: auto;
+      bottom: 15px;
+      .spinner-icon {
+        border-top-color: #FFE263;
+        border-left-color: #FFE263;
+      }
+    }
+  }
+  .biu-instance {
+    padding: .5em;
+  }
+}

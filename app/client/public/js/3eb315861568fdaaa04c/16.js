@@ -1,0 +1,17 @@
+webpackJsonp([16],{
+
+/***/ 1414:
+/***/ (function(module, exports, __webpack_require__) {
+
+eval("module.exports = {\n  path: 'add',\n  getComponent: function getComponent(location, cb) {\n\n    __webpack_require__.e/* require.ensure */(32).then((function () {\n\n      var Add = __webpack_require__(1450).default;\n      cb(null, Add);\n    }).bind(null, __webpack_require__)).catch(__webpack_require__.oe);\n  }\n};//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiMTQxNC5qcyIsInNvdXJjZXMiOlsid2VicGFjazovLy9hcHAvY2xpZW50L2Fzc2V0cy9qcy9jb21wb25lbnRzL1BhZ2VzL0FkZC9yb3V0ZXIuanM/YWNhZiJdLCJzb3VyY2VzQ29udGVudCI6WyJtb2R1bGUuZXhwb3J0cyA9IHtcbiAgcGF0aDogJ2FkZCcsXG4gIGdldENvbXBvbmVudChsb2NhdGlvbiwgY2IpIHtcblxuICAgIHJlcXVpcmUuZW5zdXJlKFtdLCAoKSA9PiB7XG5cbiAgICAgIGNvbnN0IEFkZCA9IHJlcXVpcmUoJy4vaW5kZXgnKS5kZWZhdWx0O1xuICAgICAgY2IobnVsbCwgQWRkKTtcbiAgICB9KTtcbiAgfVxufTtcblxuXG5cbi8vIFdFQlBBQ0sgRk9PVEVSIC8vXG4vLyBhcHAvY2xpZW50L2Fzc2V0cy9qcy9jb21wb25lbnRzL1BhZ2VzL0FkZC9yb3V0ZXIuanMiXSwibWFwcGluZ3MiOiJBQUFBO0FBQ0E7QUFDQTtBQUNBO0FBQ0E7QUFDQTtBQUNBO0FBQ0E7QUFDQTtBQUNBO0FBVEEiLCJzb3VyY2VSb290IjoiIn0=");
+
+/***/ }),
+
+/***/ 1415:
+/***/ (function(module, exports, __webpack_require__) {
+
+eval("module.exports = {\n  path: ':id',\n  getComponent: function getComponent(location, cb) {\n\n    __webpack_require__.e/* require.ensure */(60).then((function () {\n\n      var Detail = __webpack_require__(1457).default;\n      cb(null, Detail);\n    }).bind(null, __webpack_require__)).catch(__webpack_require__.oe);\n  },\n  getChildRoutes: function getChildRoutes(location, cb) {\n\n    __webpack_require__.e/* require.ensure */(24).then((function () {\n\n      var editRouter = __webpack_require__(1454);\n      var deleteRouter = __webpack_require__(1452);\n      var sourceRouter = __webpack_require__(1456);\n      cb(null, [editRouter, deleteRouter, sourceRouter]);\n    }).bind(null, __webpack_require__)).catch(__webpack_require__.oe);\n  }\n};//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiMTQxNS5qcyIsInNvdXJjZXMiOlsid2VicGFjazovLy9hcHAvY2xpZW50L2Fzc2V0cy9qcy9jb21wb25lbnRzL1BhZ2VzL0RldGFpbC9yb3V0ZXIuanM/ZjkxYyJdLCJzb3VyY2VzQ29udGVudCI6WyJtb2R1bGUuZXhwb3J0cyA9IHtcbiAgcGF0aDogJzppZCcsXG4gIGdldENvbXBvbmVudChsb2NhdGlvbiwgY2IpIHtcblxuICAgIHJlcXVpcmUuZW5zdXJlKFtdLCAoKSA9PiB7XG5cbiAgICAgIGNvbnN0IERldGFpbCA9IHJlcXVpcmUoJy4vaW5kZXgnKS5kZWZhdWx0O1xuICAgICAgY2IobnVsbCwgRGV0YWlsKTtcbiAgICB9KTtcbiAgfSxcbiAgZ2V0Q2hpbGRSb3V0ZXMobG9jYXRpb24sIGNiKSB7XG5cbiAgICByZXF1aXJlLmVuc3VyZShbXSwgKCkgPT4ge1xuXG4gICAgICBjb25zdCBlZGl0Um91dGVyID0gcmVxdWlyZSgnLi9FZGl0L3JvdXRlcicpO1xuICAgICAgY29uc3QgZGVsZXRlUm91dGVyID0gcmVxdWlyZSgnLi9EZWxldGUvcm91dGVyJyk7XG4gICAgICBjb25zdCBzb3VyY2VSb3V0ZXIgPSByZXF1aXJlKCcuL1NvdXJjZS9yb3V0ZXInKTtcbiAgICAgIGNiKG51bGwsIFtcbiAgICAgICAgZWRpdFJvdXRlcixcbiAgICAgICAgZGVsZXRlUm91dGVyLFxuICAgICAgICBzb3VyY2VSb3V0ZXJcbiAgICAgIF0pO1xuICAgIH0pO1xuICB9XG59O1xuXG5cblxuLy8gV0VCUEFDSyBGT09URVIgLy9cbi8vIGFwcC9jbGllbnQvYXNzZXRzL2pzL2NvbXBvbmVudHMvUGFnZXMvRGV0YWlsL3JvdXRlci5qcyJdLCJtYXBwaW5ncyI6IkFBQUE7QUFDQTtBQUNBO0FBQ0E7QUFDQTtBQUNBO0FBQ0E7QUFDQTtBQUNBO0FBQ0E7QUFDQTtBQUNBO0FBQ0E7QUFDQTtBQUNBO0FBQ0E7QUFDQTtBQUNBO0FBS0E7QUFDQTtBQXZCQSIsInNvdXJjZVJvb3QiOiIifQ==");
+
+/***/ })
+
+});

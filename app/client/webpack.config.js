@@ -1,5 +1,5 @@
 const Path = require('path');
-const Webpack = require('Webpack');
+const Webpack = require('webpack');
 
 module.exports = {
   devtool: (process.env.NODE_ENV !== 'production') ? 'cheap-module-eval-source-map' : 'hidden-source-map',

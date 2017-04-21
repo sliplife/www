@@ -1,10 +1,11 @@
 import debounce from 'lodash/debounce';
 import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
+import { Link } from 'react-router';
 import { bindActionCreators } from 'redux';
 import * as actionCreators from 'actions';
 import { Button, Form, Icon, Input, Item, Label, Segment } from 'semantic-ui-react';
-import { NProgress } from 'components';
+import { Loading, NProgress } from 'components';
 
 const mapStateToProps = (state) => ({
   ...state.auth,
@@ -94,13 +95,6 @@ export default class Home extends React.Component {
   }
   render() {
 
-    const paragraph = <p>
-      Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam laoreet purus eget est ultrices gravida.
-      Sed ac quam cursus lacus tincidunt semper. Nam id velit ex. Aliquam in velit sit amet ipsum vestibulum elementum.
-      Nulla aliquam congue nisi, a maximus eros aliquam non.
-      Praesent ultrices cursus nisl quis venenatis. Curabitur ut scelerisque nulla, a sagittis sem.
-      Nunc tempus vitae ante id efficitur.</p>;
-
     return (
       <div>
         <Segment as={Form} attached='bottom'>
@@ -117,58 +111,30 @@ export default class Home extends React.Component {
         </Segment>
         <Segment>
           <Item.Group divided>
-            <Item>
-              <Item.Image src='/assets/images/image.png' label={{ as: 'a', color: 'red', corner: 'right', icon: 'anchor' }} />
-              <Item.Content>
-                <Item.Header as='a'>Palm Bay</Item.Header>
-                <Item.Meta>
-                  <span className='cinema'>Florida</span>
-                </Item.Meta>
-                <Item.Description>{paragraph}</Item.Description>
-                <Item.Extra>
-                  <Label color='orange'>New</Label>
-                  <Label>Rack</Label>
-                  <Button primary floated='right'>
-                    View Listing
-                    <Icon name='right chevron' />
-                  </Button>
-                </Item.Extra>
-              </Item.Content>
-            </Item>
-            <Item>
-              <Item.Image src='/assets/images/image.png' />
-              <Item.Content>
-                <Item.Header as='a'>Santa Cruz</Item.Header>
-                <Item.Meta>
-                  <span className='cinema'>California</span>
-                </Item.Meta>
-                <Item.Description>{paragraph}</Item.Description>
-                <Item.Extra>
-                  <Button primary floated='right'>
-                    View Listing
-                    <Icon name='right chevron' />
-                  </Button>
-                  <Label>Marina</Label>
-                </Item.Extra>
-              </Item.Content>
-            </Item>
-            <Item>
-              <Item.Image src='/assets/images/image.png' />
-              <Item.Content>
-                <Item.Header as='a'>San Antonio</Item.Header>
-                <Item.Meta>
-                  <span className='cinema'>Texas</span>
-                </Item.Meta>
-                <Item.Description>{paragraph}</Item.Description>
-                <Item.Extra>
-                  <Label>Trailer</Label>
-                  <Button primary floated='right'>
-                    View Listing
-                    <Icon name='right chevron' />
-                  </Button>
-                </Item.Extra>
-              </Item.Content>
-            </Item>
+            {!this.props.listings.listings.length ? <Loading /> : this.props.listings.listings.map((listing) => {
+
+              return (
+                <Item key={listing.id}>
+
+                  <Item.Image as={Link} to={`/listings/${listing.id}`} src='/assets/images/image.png' label={{ color: 'red', corner: 'right', icon: 'anchor' }} />
+                  <Item.Content>
+                    <Item.Header as={Link} to={`/listings/${listing.id}`}>Palm Bay</Item.Header>
+                    <Item.Meta>
+                      <span className='cinema'>Florida</span>
+                    </Item.Meta>
+                    <Item.Description><p>{listing.description}</p></Item.Description>
+                    <Item.Extra>
+                      <Label color='orange'>New</Label>
+                      <Label>Rack</Label>
+                      <Button primary floated='right' as={Link} to={`/listings/${listing.id}`}>
+                        View Listing
+                        <Icon name='right chevron' />
+                      </Button>
+                    </Item.Extra>
+                  </Item.Content>
+                </Item>
+              );
+            })}
           </Item.Group>
         </Segment>
       </div>

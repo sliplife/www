@@ -6,6 +6,8 @@ import { bindActionCreators } from 'redux';
 import * as actionCreators from 'actions';
 import { Button, Form, Icon, Input, Item, Label, Segment } from 'semantic-ui-react';
 import { Loading, NProgress } from 'components';
+import Empty from './Empty';
+import NoMatches from './NoMatches';
 
 const mapStateToProps = (state) => ({
   ...state.auth,
@@ -31,6 +33,8 @@ export default class Home extends React.Component {
   constructor(props) {
 
     super(props);
+    this.search = debounce(this.search, 500);
+    this.handleSearch = this.handleSearch.bind(this);
     this.bindWindowScroll = this.bindWindowScroll.bind(this);
     this.unbindWindowScroll = this.unbindWindowScroll.bind(this);
     this.handleWindowScroll = debounce(this.handleWindowScroll.bind(this), 250);
@@ -93,25 +97,76 @@ export default class Home extends React.Component {
 
     return this.scroller.scrollTop + this.scroller.clientHeight >= this.scroller.scrollHeight - 450;
   }
+  search(query) {
+
+    const { limit, page } = this.state;
+    this.props.actions.listings.search({ query, limit, page })
+      .then(() => this.setState({ isSearching: false }, this.scrollBind));
+  }
+  handleSearch(event) {
+
+    const query = event.target.value;
+    this.setState({ query, isSearching: true }, () => this.search(query));
+  }
+  renderSearchInput() {
+
+    return (
+      <Segment as={Form} attached='bottom'>
+        <Form.Field>
+          <Input
+            icon='search'
+            iconPosition='left'
+            name="query"
+            placeholder='Search'
+            type="text"
+            value={this.state.query}
+            loading={this.state.isSearching}
+            onChange={this.handleSearch}
+          />
+        </Form.Field>
+      </Segment>
+    );
+  }
   render() {
+
+    const totalLoaded = this.props.listings.listings.length;
+    if (this.state.query && totalLoaded === 0) {
+      return (
+        <div>
+          {this.renderSearchInput()}
+          <Segment>
+            <NoMatches />
+          </Segment>
+        </div>
+      );
+    }
+    if (totalLoaded === 0 && !this.state.isLoading && this.state.query !== '') {
+      return (
+        <div>
+          {this.renderSearchInput()}
+          <Segment>
+            <Empty />
+          </Segment>
+        </div>
+      );
+    }
+    if (totalLoaded === 0) {
+      return (
+        <div>
+          {this.renderSearchInput()}
+          <Segment>
+            <Loading />
+          </Segment>
+        </div>
+      );
+    }
 
     return (
       <div>
-        <Segment as={Form} attached='bottom'>
-          <Form.Field>
-            <Input
-              action={{ secondary: true, content: 'Cast' }}
-              icon='search'
-              iconPosition='left'
-              name="query"
-              placeholder='Search'
-              type="text"
-            />
-          </Form.Field>
-        </Segment>
+        {this.renderSearchInput()}
         <Segment>
           <Item.Group divided>
-            {!this.props.listings.listings.length ? <Loading /> : this.props.listings.listings.map((listing) => {
+            {this.state.isLoading ? <Loading /> : this.props.listings.listings.map((listing) => {
 
               return (
                 <Item key={listing.id}>

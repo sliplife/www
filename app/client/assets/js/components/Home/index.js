@@ -35,6 +35,7 @@ export default class Home extends React.Component {
     super(props);
     this.search = debounce(this.search, 500);
     this.handleSearch = this.handleSearch.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
     this.bindWindowScroll = this.bindWindowScroll.bind(this);
     this.unbindWindowScroll = this.unbindWindowScroll.bind(this);
     this.handleWindowScroll = debounce(this.handleWindowScroll.bind(this), 250);
@@ -108,10 +109,14 @@ export default class Home extends React.Component {
     const query = event.target.value;
     this.setState({ query, isSearching: true }, () => this.search(query));
   }
+  handleSubmit(event) {
+
+    event.preventDefault();
+  }
   renderSearchInput() {
 
     return (
-      <Segment as={Form} attached='bottom'>
+      <Segment as={Form} onSubmit={this.handleSubmit} attached='bottom'>
         <Form.Field>
           <Input
             icon='search'

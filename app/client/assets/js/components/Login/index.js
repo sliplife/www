@@ -27,17 +27,17 @@ export default class Login extends React.Component {
     actions: PropTypes.object.isRequired,
     location: PropTypes.object.isRequired
   };
+  state = {
+    email: '',
+    password: '',
+    isLoading: false,
+    redirectTo: this.props.location.query.redirect || '/'
+  };
   constructor(props) {
 
     super(props);
     this.handleLogin = this.handleLogin.bind(this);
     this.handleChange = this.handleChange.bind(this);
-    this.state = {
-      email: '',
-      password: '',
-      isLoading: false,
-      redirectTo: this.props.location.query.redirect || '/'
-    };
   }
   componentWillMount() {
 

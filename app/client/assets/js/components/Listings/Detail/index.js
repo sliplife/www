@@ -17,7 +17,7 @@ const mapDispatchToProps = (dispatch) => ({
 });
 
 @connect(mapStateToProps, mapDispatchToProps)
-export default class UsersDetails extends React.Component {
+export default class ListingsDetail extends React.Component {
   static propTypes = {
     actions: PropTypes.object.isRequired,
     children: PropTypes.object,
@@ -55,9 +55,9 @@ export default class UsersDetails extends React.Component {
             <Item>
               <Item.Image as={Link} to={`/listings/${this.props.listing.id}`} src='/assets/images/image.png' label={{ color: 'red', corner: 'right', icon: 'anchor' }} />
               <Item.Content>
-                <Item.Header as={Link} to={`/listings/${this.props.listing.id}`}>Palm Bay</Item.Header>
+                <Item.Header as={Link} to={`/listings/${this.props.listing.id}`}>{this.props.listing.city}</Item.Header>
                 <Item.Meta>
-                  <span className='cinema'>Florida</span>
+                  <span className='cinema'>{this.props.listing.state}</span>
                 </Item.Meta>
                 <Item.Description>{this.props.listing.description}</Item.Description>
                 <Item.Extra>

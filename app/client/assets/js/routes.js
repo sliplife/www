@@ -1,6 +1,5 @@
 import Layout from 'components/Layout';
-import homeRouter from 'components/Home/router';
-import listingsRouter from 'components/Listings/Detail/router';
+import listingsRouter from 'components/Listings/router';
 import loginRouter from 'components/Login/router';
 import logoutRouter from 'components/Logout/router';
 import recoveryRouter from 'components/Recovery/router';
@@ -13,7 +12,6 @@ const routes = {
   component: Layout,
   // Routes.
   childRoutes: [
-    homeRouter,
     listingsRouter,
     loginRouter,
     logoutRouter,

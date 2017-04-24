@@ -5,11 +5,10 @@ import { push } from 'react-router-redux';
 import { bindActionCreators } from 'redux';
 import { Button, Form, Icon, Input, Message, Segment } from 'semantic-ui-react';
 import * as actionCreators from 'actions';
-import { auth } from 'actions';
 import { Link, NProgress } from 'components';
 
 const mapStateToProps = (state) => ({
-  ...state.auth
+  auth: state.auth
 });
 const mapDispatchToProps = (dispatch) => ({
   dispatch,
@@ -22,26 +21,27 @@ const mapDispatchToProps = (dispatch) => ({
 @connect(mapStateToProps, mapDispatchToProps)
 export default class Login extends React.Component {
   static propTypes = {
+    auth: PropTypes.object,
     error: PropTypes.any,
     dispatch: PropTypes.func.isRequired,
     actions: PropTypes.object.isRequired,
     location: PropTypes.object.isRequired
-  };
-  state = {
-    email: '',
-    password: '',
-    isLoading: false,
-    redirectTo: this.props.location.query.redirect || '/'
   };
   constructor(props) {
 
     super(props);
     this.handleLogin = this.handleLogin.bind(this);
     this.handleChange = this.handleChange.bind(this);
+    this.state = {
+      email: '',
+      password: '',
+      isLoading: false,
+      redirectTo: this.props.location.query.redirect || '/'
+    };
   }
   componentWillMount() {
 
-    if (auth.isAuthenticated()) {
+    if (this.props.auth.user) {
       this.props.dispatch(push(this.state.redirectTo));
     }
   }

@@ -46,7 +46,7 @@ export default class Home extends React.Component {
       isPaging: false,
       isSearching: false,
       query: '',
-      limit: 25,
+      limit: 5,
       page: 1
     };
   }
@@ -54,8 +54,8 @@ export default class Home extends React.Component {
 
     NProgress.done();
     const { limit, page } = this.state;
-    this.scroller = window.document;
-    this.props.actions.listings.browse({ limit, page })
+    this.scroller = document.body;
+    this.props.actions.listings.browse({ limit, page, with: 'uploads' })
       .then(() => this.setState({ isLoading: false }, this.bindWindowScroll));
   }
   componentDidUpdate() {
@@ -86,24 +86,25 @@ export default class Home extends React.Component {
   }
   handleWindowScroll() {
 
-    const { currentPage, nextPage } = this.props.listings;
+    const { currentPage, nextPage } = this.props.listings.pagination;
+    const { limit, query } = this.state;
     if (this.nearBottom() && currentPage < nextPage) {
       NProgress.start();
       this.setState({ isPaging: true }, () => {
 
-        this.props.actions.listings.browse({ limit: this.state.limit, page: nextPage })
+        this.props.actions.listings.browse({ limit, query, page: nextPage })
           .then(() => this.setState({ isPaging: false }, NProgress.done()));
       });
     }
   }
   nearBottom() {
 
-    return this.scroller.scrollTop + this.scroller.clientHeight >= this.scroller.scrollHeight - 450;
+    return (window.innerHeight + this.scroller.scrollTop + 250) >= this.scroller.offsetHeight;
   }
   search(query) {
 
     const { limit, page } = this.state;
-    this.props.actions.listings.search({ query, limit, page })
+    this.props.actions.listings.search({ query, limit, page, with: 'uploads' })
       .then(() => {
 
         this.props.dispatch(push('/'));
@@ -183,10 +184,12 @@ export default class Home extends React.Component {
             <Item.Group divided>
               {this.state.isLoading ? <Loading /> : this.props.listings.listings.map((listing) => {
 
+                const imageUrl = (listing.uploads.length > 0) ? `${listing.uploads[0].url}?width=225&height=225` : '/assets/images/image.png';
+
                 return (
                   <Item key={listing.id}>
 
-                    <Item.Image as={Link} to={`/listings/${listing.id}`} src='/assets/images/image.png' label={{ color: 'red', corner: 'right', icon: 'anchor' }} />
+                    <Item.Image as={Link} to={`/listings/${listing.id}`} src={imageUrl} label={{ color: 'red', corner: 'right', icon: 'anchor' }} />
                     <Item.Content>
                       <Item.Header as={Link} to={`/listings/${listing.id}`}>{listing.city}</Item.Header>
                       <Item.Meta>

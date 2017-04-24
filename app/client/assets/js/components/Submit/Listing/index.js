@@ -6,15 +6,18 @@ import { bindActionCreators } from 'redux';
 import * as actionCreators from 'actions';
 import { Button, Divider, Dropdown, Form, Icon, Input, Segment, TextArea } from 'semantic-ui-react';
 import { NProgress } from 'components';
+import tus from 'tus-js-client';
 
 const mapStateToProps = (state) => ({
+  auth: state.auth,
   error: state.listings.error
 });
 const mapDispatchToProps = (dispatch) => ({
   dispatch,
   actions: {
     alert: bindActionCreators(actionCreators.alert, dispatch),
-    listings: bindActionCreators(actionCreators.listings, dispatch)
+    listings: bindActionCreators(actionCreators.listings, dispatch),
+    uploads: bindActionCreators(actionCreators.uploads, dispatch)
   }
 });
 
@@ -24,12 +27,14 @@ export default class SubmitListing extends React.Component {
     dispatch: PropTypes.func,
     error: PropTypes.object,
     actions: PropTypes.object.isRequired,
+    auth: PropTypes.object.isRequired,
     setActiveStep: PropTypes.func.isRequired,
     setCompletedSteps: PropTypes.func.isRequired,
     steps: PropTypes.object.isRequired
   };
   state = {
     isLoading: true,
+    photos: [],
     listing: {
       amenities: [],
       city: '',
@@ -46,9 +51,14 @@ export default class SubmitListing extends React.Component {
     this.handleStateChange = this.handleStateChange.bind(this);
     this.handleAmenityChange = this.handleAmenityChange.bind(this);
     this.handleTypeChange = this.handleTypeChange.bind(this);
+    this.handleSave = this.handleSave.bind(this);
+    this.handleSelectPhotos = this.handleSelectPhotos.bind(this);
   }
   componentWillMount() {
 
+    if (!this.props.auth.user) {
+      return this.props.dispatch(push('/submit'));
+    }
     this.setState({ isLoading: false });
     this.props.setActiveStep('listing');
     this.props.setCompletedSteps();
@@ -59,6 +69,7 @@ export default class SubmitListing extends React.Component {
   }
   componentDidMount() {
 
+    this.handleSelectPhotosChanges();
     NProgress.done();
   }
   hasValidationError(validationKey) {
@@ -72,7 +83,11 @@ export default class SubmitListing extends React.Component {
 
       const { listing } = this.state;
       this.props.actions.listings.create({ ...listing })
-        .then(() => this.props.dispatch(push('/')))
+        .then((response) => {
+
+          this.setState({ listing: { ...response.payload.listing } });
+          this.handleSave(event);
+        })
         .catch((error) => {
 
           this.setState({ isLoading: false });
@@ -98,6 +113,73 @@ export default class SubmitListing extends React.Component {
 
     this.setState({ listing: { ...this.state.listing, type: data.value } });
   }
+  componentDidMount() {
+
+    this.handleSelectPhotosChanges();
+  }
+  handleUpload(event) {
+
+    const files = this.fileInput.files;
+    // Get the selected upload(s) from the input element.
+    for (const file of files) {
+      // Create a new tus upload
+      const upload = new tus.Upload(file, {
+        endpoint: '/api/uploads',
+        headers: {
+          // Authorization: ['Bearer', getAuthenticationToken()].join(' ')
+        },
+        onError: (error) => {
+
+          this.setState({ isLoading: false }, () => this.props.actions.alert.error(error));
+          NProgress.done();
+        },
+        onProgress: (bytesUploaded, bytesTotal) => {
+
+          const percentage = (bytesUploaded / bytesTotal * 100).toFixed(2);
+          NProgress.set(percentage / 100);
+        },
+        onSuccess: () => {
+
+          const id = new RegExp('.*/uploads/(.*)$').exec(upload.url)[1];
+          // if (this.props.handleSave) {
+          //   return this.props.handleSave(event, id);
+          // }
+          // NProgress.done();
+          this.props.actions.uploads.update({ id, listingId: this.state.listing.id })
+            .then((response) => {
+
+              this.props.actions.alert.success(`${response.payload.upload.name} created!`);
+            })
+            .catch((error) => this.props.actions.alert.error(error.message));
+        }
+      });
+      // Start the upload
+      upload.start();
+    }
+  }
+  handleSelectPhotos(event) {
+
+    event.preventDefault();
+    this.fileInput.click();
+  }
+  handleSelectPhotosChanges() {
+
+    this.fileInput.addEventListener('change', (event) => {
+
+      // Get the selected files from the input element
+      const photos = event.target.files;
+      this.setState({ photos });
+    });
+  }
+  handleSave(event) {
+
+    event.preventDefault();
+    event.persist();
+    this.setState({ isLoading: true }, () => {
+
+      return this.handleUpload(event);
+    });
+  }
   render() {
 
     const stateOptions = [{ key: 'fl', value: 'Florida', text: 'Florida' }];
@@ -116,6 +198,14 @@ export default class SubmitListing extends React.Component {
     return (
       <div>
         <Segment as={Form}>
+          <input multiple
+            type='file'
+            style={{ display: 'none' }}
+            ref={(input) => {
+
+              this.fileInput = input;
+            }}
+          />
           <Form.Group>
             <Form.Field error={this.hasValidationError('type')} width='4'>
               <label>Type</label>
@@ -175,7 +265,8 @@ export default class SubmitListing extends React.Component {
             />
           </Divider>
           <Button fluid
-            content='Select Photos'
+            content={`Select Photos (${this.state.photos.length})`}
+            onClick={this.handleSelectPhotos}
           />
         </Segment>
         <Segment>

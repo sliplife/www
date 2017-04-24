@@ -29,7 +29,7 @@ export default class ListingsDetail extends React.Component {
   };
   componentDidMount() {
 
-    this.props.actions.listings.read(this.props.routeParams.id)
+    this.props.actions.listings.read(this.props.routeParams.id, { with: 'uploads' })
       .then(() => this.setState({ isLoading: false }, NProgress.done));
   }
   componentWillUnmount() {
@@ -41,19 +41,21 @@ export default class ListingsDetail extends React.Component {
     if (nextProps.routeParams.id !== this.props.routeParams.id) {
       this.setState({ isLoading: true }, () => {
 
-        this.props.actions.listings.read(nextProps.routeParams.id)
+        this.props.actions.listings.read(nextProps.routeParams.id, { with: 'uploads' })
           .then(() => this.setState({ isLoading: false }, NProgress.done));
       });
     }
   }
   render() {
 
+    const imageUrl = (this.state.isLoading === true || !this.props.listing.uploads[0]) ? '/assets/images/image.png' : `${this.props.listing.uploads[0].url}?width=225&height=225`;
+
     return (this.state.isLoading === true) ? <Segment attached='bottom'><Loading /></Segment> :
       <div>
         <Segment attached='bottom'>
           <Item.Group>
             <Item>
-              <Item.Image as={Link} to={`/listings/${this.props.listing.id}`} src='/assets/images/image.png' label={{ color: 'red', corner: 'right', icon: 'anchor' }} />
+              <Item.Image as={Link} to={`/listings/${this.props.listing.id}`} src={imageUrl} label={{ color: 'red', corner: 'right', icon: 'anchor' }} />
               <Item.Content>
                 <Item.Header as={Link} to={`/listings/${this.props.listing.id}`}>{this.props.listing.city}</Item.Header>
                 <Item.Meta>

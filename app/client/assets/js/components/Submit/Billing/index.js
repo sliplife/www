@@ -30,9 +30,9 @@ export default class SubmitBilling extends React.Component {
   }
   componentWillMount() {
 
-    // if (!this.props.steps.listing.completed) {
-    //   return this.props.dispatch(push('/submit/listing'));
-    // }
+    if (!this.props.steps.listing.completed) {
+      return this.props.dispatch(push('/submit/listing'));
+    }
     this.setState({ isLoading: false });
     this.props.setActiveStep('billing');
     this.props.setCompletedSteps();

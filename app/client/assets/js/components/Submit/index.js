@@ -1,3 +1,4 @@
+import toArray from 'lodash/toarray';
 import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router';
@@ -87,7 +88,7 @@ export default class Submit extends React.Component {
   setActiveStep(name) {
 
     const steps = this.state.steps;
-    for (const step of Object.values(steps)) {
+    for (const step of toArray(steps)) {
 
       steps[step.name].active = false;
       steps[step.name].disabled = true;
@@ -101,7 +102,7 @@ export default class Submit extends React.Component {
   setCompletedSteps() {
 
     const steps = this.state.steps;
-    for (const step of Object.values(steps)) {
+    for (const step of toArray(steps)) {
 
       steps[step.name].completed = false;
       if (steps[step.name].completed === true) {
@@ -115,7 +116,7 @@ export default class Submit extends React.Component {
     return (
       <div>
         <Segment attached='bottom'>
-          <Step.Group fluid size='mini' items={Object.values(this.state.steps)} />
+          <Step.Group fluid size='mini' items={toArray(this.state.steps)} />
         </Segment>
         {this.props.children ? React.cloneElement(this.props.children, { steps: this.state.steps, setActiveStep: this.setActiveStep, setCompletedSteps: this.setCompletedSteps, ...this.props }) :
           <div>

@@ -11,6 +11,8 @@ const LessRewriteImportPlugin = require('less-plugin-rewrite-import');
 const LessPluginCleanCSS = require('less-plugin-clean-css');
 const LessPluginAutoPrefix = require('less-plugin-autoprefix');
 const replace = require('gulp-replace');
+// Images
+const imagemin = require('gulp-imagemin');
 
 // Log
 function log(error) {
@@ -56,6 +58,7 @@ gulp.task('images', () => {
 
     gulp
       .src(['./assets/images/**/*'])
+      .pipe(imagemin())
       .pipe(gulp.dest('./public/images/'));
   });
 });

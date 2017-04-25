@@ -10,7 +10,7 @@ export default class InstallerAccount extends React.Component {
     installer: PropTypes.object,
     actions: PropTypes.object,
     setActiveStep: PropTypes.func,
-    setCompletedSteps: PropTypes.func
+    setCompletedStep: PropTypes.func
   };
   state = {
     isLoading: true
@@ -33,7 +33,6 @@ export default class InstallerAccount extends React.Component {
         }
         this.setState({ isLoading: false });
         this.props.setActiveStep('confirmation');
-        this.props.setCompletedSteps();
       });
   }
   componentWillUnmount() {

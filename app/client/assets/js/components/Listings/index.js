@@ -184,7 +184,7 @@ export default class Home extends React.Component {
             <Item.Group divided>
               {this.state.isLoading ? <Loading /> : this.props.listings.listings.map((listing) => {
 
-                const imageUrl = (listing.uploads.length > 0) ? `${listing.uploads[0].url}?width=225&height=225` : '/assets/images/image.png';
+                const imageUrl = (listing.uploads.length > 0) ? `${listing.uploads[0].url}?width=480&height=398` : '/assets/images/image.png';
 
                 return (
                   <Item key={listing.id}>

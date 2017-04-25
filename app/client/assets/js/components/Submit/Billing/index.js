@@ -11,7 +11,7 @@ export default class SubmitBilling extends React.Component {
     error: PropTypes.any,
     actions: PropTypes.object,
     setActiveStep: PropTypes.func.isRequired,
-    setCompletedSteps: PropTypes.func.isRequired,
+    setCompletedStep: PropTypes.func.isRequired,
     steps: PropTypes.object.isRequired
   };
   state = {
@@ -43,7 +43,6 @@ export default class SubmitBilling extends React.Component {
     }
     this.setState({ isLoading: false });
     this.props.setActiveStep('billing');
-    this.props.setCompletedSteps();
   }
   componentWillUnmount() {
 

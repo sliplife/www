@@ -34,7 +34,7 @@ export default class Submit extends React.Component {
 
     super(props);
     this.setActiveStep = this.setActiveStep.bind(this);
-    this.setCompletedSteps = this.setCompletedSteps.bind(this);
+    this.setCompletedStep = this.setCompletedStep.bind(this);
     this.state = {
       isLoading: false,
       steps: {
@@ -99,16 +99,10 @@ export default class Submit extends React.Component {
     }
     this.setState({ steps });
   }
-  setCompletedSteps() {
+  setCompletedStep(name) {
 
-    const steps = this.state.steps;
-    for (const step of toArray(steps)) {
-
-      steps[step.name].completed = false;
-      if (steps[step.name].completed === true) {
-        steps[step.name].completed = true;
-      }
-    };
+    const { steps } = this.state;
+    steps[name].completed = true;
     this.setState({ steps });
   }
   render() {
@@ -118,7 +112,7 @@ export default class Submit extends React.Component {
         <Segment attached='bottom'>
           <Step.Group fluid size='mini' items={toArray(this.state.steps)} />
         </Segment>
-        {this.props.children ? React.cloneElement(this.props.children, { steps: this.state.steps, setActiveStep: this.setActiveStep, setCompletedSteps: this.setCompletedSteps, ...this.props }) :
+        {this.props.children ? React.cloneElement(this.props.children, { steps: this.state.steps, setActiveStep: this.setActiveStep, setCompletedStep: this.setCompletedStep, ...this.props }) :
           <div>
             <Segment>
               <Message warning>

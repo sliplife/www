@@ -48,7 +48,7 @@ export default class ListingsDetail extends React.Component {
   }
   render() {
 
-    const imageUrl = (this.state.isLoading === true || !this.props.listing.uploads[0]) ? '/assets/images/image.png' : `${this.props.listing.uploads[0].url}?width=225&height=225`;
+    const imageUrl = (this.state.isLoading === true || !this.props.listing.uploads[0]) ? '/assets/images/image.png' : `${this.props.listing.uploads[0].url}?width=480&height=398`;
 
     return (this.state.isLoading === true) ? <Segment attached='bottom'><Loading /></Segment> :
       <div>

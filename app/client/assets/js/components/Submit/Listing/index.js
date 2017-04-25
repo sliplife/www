@@ -29,7 +29,7 @@ export default class SubmitListing extends React.Component {
     actions: PropTypes.object.isRequired,
     auth: PropTypes.object.isRequired,
     setActiveStep: PropTypes.func.isRequired,
-    setCompletedSteps: PropTypes.func.isRequired,
+    setCompletedStep: PropTypes.func.isRequired,
     steps: PropTypes.object.isRequired
   };
   state = {
@@ -61,7 +61,6 @@ export default class SubmitListing extends React.Component {
     }
     this.setState({ isLoading: false });
     this.props.setActiveStep('listing');
-    this.props.setCompletedSteps();
   }
   componentWillUnmount() {
 
@@ -141,14 +140,11 @@ export default class SubmitListing extends React.Component {
         onSuccess: () => {
 
           const id = new RegExp('.*/uploads/(.*)$').exec(upload.url)[1];
-          // if (this.props.handleSave) {
-          //   return this.props.handleSave(event, id);
-          // }
-          // NProgress.done();
           this.props.actions.uploads.update({ id, listingId: this.state.listing.id })
             .then((response) => {
 
-              this.props.actions.alert.success(`${response.payload.upload.name} created!`);
+              this.props.setCompletedStep('listing');
+              this.props.dispatch(push('/submit/billing'));
             })
             .catch((error) => this.props.actions.alert.error(error.message));
         }

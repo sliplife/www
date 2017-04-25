@@ -3,6 +3,7 @@ import React, { PropTypes } from 'react';
 import { push } from 'react-router-redux';
 import {  Button, Form, Input, Message, Segment } from 'semantic-ui-react';
 import { NProgress } from 'components';
+import Script from 'react-load-script';
 
 export default class SubmitBilling extends React.Component {
   static propTypes = {
@@ -20,6 +21,10 @@ export default class SubmitBilling extends React.Component {
       cardExpirationMonth: '',
       cardExpirationYear: '',
       cardCvc: ''
+    },
+    script: {
+      loaded: false,
+      error: false
     }
   };
   constructor(props) {
@@ -27,6 +32,9 @@ export default class SubmitBilling extends React.Component {
     super(props);
     this.handleChange = this.handleChange.bind(this);
     this.handleContinue = this.handleContinue.bind(this);
+    this.handleScriptCreate = this.handleScriptCreate.bind(this);
+    this.handleScriptError = this.handleScriptError.bind(this);
+    this.handleScriptLoad = this.handleScriptLoad.bind(this);
   }
   componentWillMount() {
 
@@ -44,6 +52,19 @@ export default class SubmitBilling extends React.Component {
   componentDidMount() {
 
     NProgress.done();
+  }
+  handleScriptCreate() {
+
+    this.setState({ script: { loaded: false, ...this.state.script } });
+  }
+  handleScriptError() {
+
+    this.setState({ script: { error: true, ...this.state.script } });
+  }
+
+  handleScriptLoad() {
+
+    this.setState({ script: { loaded: true, ...this.state.script } });
   }
   hasValidationError(validationKey) {
 
@@ -73,6 +94,12 @@ export default class SubmitBilling extends React.Component {
 
     return (
       <div>
+        <Script
+          url="https://js.stripe.com/v2/"
+          onCreate={this.handleScriptCreate}
+          onError={this.handleScriptError}
+          onLoad={this.handleScriptLoad}
+        />
         <Segment>
           <Form loading={this.state.isLoading}>
             <Message info>

@@ -71,15 +71,6 @@ export default class Submit extends React.Component {
   componentDidMount() {
 
     NProgress.done();
-    if (this.props.auth.user) {
-      this.props.dispatch(push('/submit/listing'));
-    }
-  }
-  componentWillReceiveProps(nextProps) {
-
-    if (this.props.auth.user && nextProps.location.pathname === '/submit') {
-      this.props.dispatch(replace('/submit/listing'));
-    }
   }
   componentDidUpdate() {
 

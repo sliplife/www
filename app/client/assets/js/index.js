@@ -10,11 +10,16 @@ import { Root } from 'containers';
 import { auth } from 'actions';
 import { NProgress } from 'components';
 import configureStore from 'store/configureStore';
+import ReactGA from 'react-ga';
+
+ReactGA.initialize('UA-22475281-1');
 
 const reduxStore = configureStore();
 const history = syncHistoryWithStore(browserHistory, reduxStore);
 history.listen((location, action) => {
 
+  ReactGA.set({ page: location.pathname });
+  ReactGA.pageview(location.pathname);
   if (['POP', 'PUSH'].includes(location.action)) {
     NProgress.start();
   }

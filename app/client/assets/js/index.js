@@ -18,8 +18,10 @@ const reduxStore = configureStore();
 const history = syncHistoryWithStore(browserHistory, reduxStore);
 history.listen((location, action) => {
 
-  ReactGA.set({ page: location.pathname });
-  ReactGA.pageview(location.pathname);
+  if (window.location.hostname === 'www.sliplife.com') {
+    ReactGA.set({ page: location.pathname });
+    ReactGA.pageview(location.pathname);
+  }
   if (['POP', 'PUSH'].includes(location.action)) {
     NProgress.start();
   }

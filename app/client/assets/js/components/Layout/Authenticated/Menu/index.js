@@ -21,11 +21,8 @@ export default class LayoutDefault extends React.Component {
 
     return (
       <Menu styleName='menu'>
-        <Menu.Item header>
+        <Menu.Item header as={Link} to='/' activeClassName='active'>
           <Image src='/assets/images/pirate.svg' styleName='logo' />
-        </Menu.Item>
-        <Menu.Item as={Link} to='/' activeClassName='active' styleName='item'>
-          Browse
         </Menu.Item>
         <Menu.Item as={Link} to='/submit' activeClassName='active' styleName='item'>
           Submit

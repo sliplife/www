@@ -9,7 +9,6 @@
       <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no, user-scalable=no, maximum-scale=1, minimal-ui">
       <link href="/assets/images/pirate.png" rel="shortcut icon" type="image/x-icon" />
       <link rel="stylesheet" type="text/css" href="/assets/css/screen.css" />
-      <link href="https://fonts.googleapis.com/css?family=Arvo" rel="stylesheet">
   </head>
   <body>
     <div id="app"></div>

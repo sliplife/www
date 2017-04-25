@@ -1,3 +1,4 @@
+import 'autotrack';
 import React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
@@ -27,6 +28,8 @@ export default class Layout extends React.Component {
   };
   componentWillMount() {
 
+    ga('create', 'UA-22475281-1', 'auto');
+    ga('send', 'pageview');
     this.props.actions.api.switchContext();
   }
   render() {

@@ -20,6 +20,7 @@
   },
   "homepage": "https://github.com/sliplife/www",
   "dependencies": {
+    "autotrack": "2.3.2",
     "biu.js": "1.2.0",
     "bluebird": "3.4.7",
     "clipboard": "1.5.16",

@@ -1,26 +1,44 @@
 import get from 'lodash/get';
 import React, { PropTypes } from 'react';
-import { push } from 'react-router-redux';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import { push, replace } from 'react-router-redux';
+import * as actionCreators from 'actions';
 import {  Button, Form, Input, Message, Segment } from 'semantic-ui-react';
 import { NProgress } from 'components';
 import Script from 'react-load-script';
 
+const mapStateToProps = (state) => ({
+  listings: state.listings,
+  stripe: state.stripe
+});
+const mapDispatchToProps = (dispatch) => ({
+  dispatch,
+  actions: {
+    alert: bindActionCreators(actionCreators.alert, dispatch),
+    stripe: bindActionCreators(actionCreators.stripe, dispatch)
+  }
+});
+
+@connect(mapStateToProps, mapDispatchToProps)
 export default class SubmitBilling extends React.Component {
   static propTypes = {
     dispatch: PropTypes.func,
     error: PropTypes.any,
     actions: PropTypes.object,
+    listings: PropTypes.object.isRequired,
     setActiveStep: PropTypes.func.isRequired,
     setCompletedStep: PropTypes.func.isRequired,
-    steps: PropTypes.object.isRequired
+    steps: PropTypes.object.isRequired,
+    stripe: PropTypes.object.isRequired
   };
   state = {
     isLoading: true,
     billing: {
-      cardNumber: '',
-      cardExpirationMonth: '',
-      cardExpirationYear: '',
-      cardCvc: ''
+      number: '',
+      exp_month: '',
+      exp_year: '',
+      cvc: ''
     },
     script: {
       loaded: false,
@@ -39,7 +57,10 @@ export default class SubmitBilling extends React.Component {
   componentWillMount() {
 
     if (!this.props.steps.listing.completed) {
-      return this.props.dispatch(push('/submit/listing'));
+      return this.props.dispatch(replace('/submit/listing'));
+    }
+    if (this.props.steps.billing.completed) {
+      return this.props.dispatch(replace('/submit/confirmation'));
     }
     this.setState({ isLoading: false });
     this.props.setActiveStep('billing');
@@ -54,16 +75,21 @@ export default class SubmitBilling extends React.Component {
   }
   handleScriptCreate() {
 
-    this.setState({ script: { loaded: false, ...this.state.script } });
+    const script = this.state.script;
+    script.loaded = false;
+    this.setState({ script });
   }
   handleScriptError() {
 
-    this.setState({ script: { error: true, ...this.state.script } });
+    const script = this.state.script;
+    script.error = true;
+    this.setState({ script });
   }
-
   handleScriptLoad() {
 
-    this.setState({ script: { loaded: true, ...this.state.script } });
+    const script = this.state.script;
+    script.loaded = true;
+    this.setState({ script });
   }
   hasValidationError(validationKey) {
 
@@ -80,13 +106,21 @@ export default class SubmitBilling extends React.Component {
     event.preventDefault();
     this.setState({ isLoading: true }, () => {
 
-      // this.props.actions.installer.account(this.state.billing)
-      //   .then((response) => this.props.dispatch(push('/installer/confirmation')))
-      //   .catch((error) => {
-      //
-      //     this.setState({ isLoading: false });
-      //     this.props.actions.alert.error(error.message);
-      //   });
+      Stripe.setPublishableKey(__STRIPE_PUBLISHABLE_KEY__);
+
+      this.props.actions.stripe.createToken(this.state.billing)
+      .then((response) => this.props.actions.stripe.createCharge({ stripeTokenId: this.props.stripe.token.id, listingId: this.props.listings.listing.id }))
+      .then((response) => {
+
+        this.props.setCompletedStep('billing');
+        this.setState({ isLoading: false });
+        this.props.dispatch(push('/submit/confirmation'));
+      })
+      .catch((error) => {
+
+        this.setState({ isLoading: false });
+        this.props.actions.alert.error(error.message);
+      });
     });
   }
   render() {
@@ -99,8 +133,8 @@ export default class SubmitBilling extends React.Component {
           onError={this.handleScriptError}
           onLoad={this.handleScriptLoad}
         />
-        <Segment>
-          <Form loading={this.state.isLoading}>
+        <Segment loading={this.state.isLoading}>
+          <Form>
             <Message info>
               <Message.Header>Terms of Service</Message.Header>
               <p>
@@ -113,46 +147,46 @@ export default class SubmitBilling extends React.Component {
               </p>
             </Message>
             <Form.Group>
-              <Form.Field error={this.hasValidationError('cardNumber')} width='6'>
+              <Form.Field error={this.hasValidationError('number')} width='6'>
                 <label>Card Number</label>
                 <Input
                   icon='credit card alternative'
                   iconPosition='left'
-                  name="cardNumber"
+                  name="number"
                   onChange={this.handleChange}
                   placeholder='Card Number'
                   type="text"
-                  value={this.state.cardNumber}
+                  value={this.state.number}
                 />
               </Form.Field>
-              <Form.Field error={this.hasValidationError('cardExpirationMonth')} width='4'>
+              <Form.Field error={this.hasValidationError('exp_month')} width='4'>
                 <label>Expiration Month</label>
                 <Input
-                  name="cardExpirationMonth"
+                  name="exp_month"
                   onChange={this.handleChange}
                   placeholder='Expiration Month'
                   type="text"
-                  value={this.state.cardExpirationMonth}
+                  value={this.state.exp_month}
                 />
               </Form.Field>
-              <Form.Field error={this.hasValidationError('cardExpirationYear')} width='4'>
+              <Form.Field error={this.hasValidationError('exp_year')} width='4'>
                 <label>Expiration Year</label>
                 <Input
-                  name="cardExpirationYear"
+                  name="exp_year"
                   onChange={this.handleChange}
                   placeholder='Expiration Year'
                   type="text"
-                  value={this.state.cardExpirationYear}
+                  value={this.state.exp_year}
                 />
               </Form.Field>
-              <Form.Field error={this.hasValidationError('cardCvc')} width='2'>
+              <Form.Field error={this.hasValidationError('cvc')} width='2'>
                 <label>CVC</label>
                 <Input
-                  name="cardCVC"
+                  name="cvc"
                   onChange={this.handleChange}
                   placeholder='CVC'
                   type="text"
-                  value={this.state.cardCVC}
+                  value={this.state.cvc}
                 />
               </Form.Field>
             </Form.Group>
@@ -162,7 +196,7 @@ export default class SubmitBilling extends React.Component {
           <Button fluid primary
             disabled={this.state.isLoading}
             loading={this.state.isLoading}
-            onClick={this.handleSubmit}
+            onClick={this.handleContinue}
             icon='right arrow'
             labelPosition='right'
             content='Continue'

@@ -35,6 +35,7 @@ export default class Submit extends React.Component {
     super(props);
     this.setActiveStep = this.setActiveStep.bind(this);
     this.setCompletedStep = this.setCompletedStep.bind(this);
+    this.resetCompletedSteps = this.resetCompletedSteps.bind(this);
     this.state = {
       isLoading: false,
       steps: {
@@ -60,8 +61,8 @@ export default class Submit extends React.Component {
           active: false,
           completed: false,
           icon: 'info',
-          title: 'Confirm Order',
-          description: 'Verify order details',
+          title: 'Confirmation',
+          description: 'Receipt for transaction',
           disabled: true,
           name: 'confirmation'
         }
@@ -72,7 +73,7 @@ export default class Submit extends React.Component {
 
     NProgress.done();
     if (this.props.auth.user) {
-      this.props.dispatch(push('/submit/listing'));
+      this.props.dispatch(replace('/submit/listing'));
     }
   }
   componentWillReceiveProps(nextProps) {
@@ -105,22 +106,35 @@ export default class Submit extends React.Component {
     steps[name].completed = true;
     this.setState({ steps });
   }
+  resetCompletedSteps() {
+
+    const steps = this.state.steps;
+    for (const step of toArray(steps)) {
+
+      steps[step.name].active = false;
+      steps[step.name].disabled = true;
+      steps[step.name].completed = false;
+    }
+    this.setState({ steps });
+  }
   render() {
 
     return (
       <div>
-        <Segment attached='bottom'>
-          <Step.Group fluid size='mini' items={toArray(this.state.steps)} />
-        </Segment>
-        {this.props.children ? React.cloneElement(this.props.children, { steps: this.state.steps, setActiveStep: this.setActiveStep, setCompletedStep: this.setCompletedStep, ...this.props }) :
+        {!this.props.children ? null :
+          <Segment attached='bottom'>
+            <Step.Group fluid size='mini' items={toArray(this.state.steps)} />
+          </Segment>
+        }
+        {this.props.children ? React.cloneElement(this.props.children, { steps: this.state.steps, setActiveStep: this.setActiveStep, setCompletedStep: this.setCompletedStep, resetCompletedSteps: this.resetCompletedSteps, ...this.props }) :
           <div>
-            <Segment>
-              <Message warning>
-                <Message.Header>Authentication Required</Message.Header>
-                <p>
-                  <em>Sign up or login to submit new listing.</em>
-                </p>
-              </Message>
+            <Segment attached='bottom'>
+              <div className="ui vertical center aligned very padded segment">
+                <h2 className="ui center aligned icon header">
+                  <i className={'circular anchor icon'} /> Submit
+                </h2>
+                <p>Sign up or login to submit new listing.</p>
+              </div>
             </Segment>
             <Segment>
               <Button fluid primary
@@ -129,8 +143,6 @@ export default class Submit extends React.Component {
                 disabled={this.state.isLoading}
                 loading={this.state.isLoading}
                 onClick={this.handleSubmit}
-                icon='right arrow'
-                labelPosition='right'
                 content='Get Started'
               />
             </Segment>

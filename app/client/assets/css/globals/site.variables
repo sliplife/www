@@ -4,8 +4,10 @@
 
 /* Page */
 @pageBackground      : rgba(0, 0, 0, .45);
+@textColor: #DEDEDE;
 
 /* Font */
+@fontName          : 'Arvo';
 @headerFont        : 'Arvo', 'Helvetica Neue', Arial, Helvetica, sans-serif;
 @pageFont          : 'Arvo', 'Helvetica Neue', Arial, Helvetica, sans-serif;
 @fontSmoothing     : antialiased;
@@ -33,3 +35,6 @@
 
 /* Links */
 @linkColor     : #004D92;
+
+/* Form */
+@inputColor: rgba(0, 0, 0, 0.87);

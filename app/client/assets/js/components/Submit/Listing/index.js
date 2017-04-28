@@ -1,7 +1,7 @@
 import get from 'lodash/get';
 import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
-import { push } from 'react-router-redux';
+import { push, replace } from 'react-router-redux';
 import { bindActionCreators } from 'redux';
 import * as actionCreators from 'actions';
 import { Button, Divider, Dropdown, Form, Icon, Input, Segment, TextArea } from 'semantic-ui-react';
@@ -25,7 +25,7 @@ const mapDispatchToProps = (dispatch) => ({
 export default class SubmitListing extends React.Component {
   static propTypes = {
     dispatch: PropTypes.func,
-    error: PropTypes.object,
+    error: PropTypes.any,
     actions: PropTypes.object.isRequired,
     auth: PropTypes.object.isRequired,
     setActiveStep: PropTypes.func.isRequired,
@@ -34,11 +34,11 @@ export default class SubmitListing extends React.Component {
   };
   state = {
     isLoading: true,
-    photos: [],
     listing: {
       amenities: [],
       city: '',
       description: '',
+      uploads: [],
       state: '',
       type: ''
     }
@@ -51,13 +51,15 @@ export default class SubmitListing extends React.Component {
     this.handleStateChange = this.handleStateChange.bind(this);
     this.handleAmenityChange = this.handleAmenityChange.bind(this);
     this.handleTypeChange = this.handleTypeChange.bind(this);
-    this.handleSave = this.handleSave.bind(this);
     this.handleSelectPhotos = this.handleSelectPhotos.bind(this);
   }
   componentWillMount() {
 
     if (!this.props.auth.user) {
-      return this.props.dispatch(push('/submit'));
+      return this.props.dispatch(replace('/submit'));
+    }
+    if (this.props.steps.listing.completed) {
+      return this.props.dispatch(replace('/submit/billing'));
     }
     this.setState({ isLoading: false });
     this.props.setActiveStep('listing');
@@ -84,8 +86,8 @@ export default class SubmitListing extends React.Component {
       this.props.actions.listings.create({ ...listing })
         .then((response) => {
 
-          this.setState({ listing: { ...response.payload.listing } });
-          this.handleSave(event);
+          this.props.setCompletedStep('listing');
+          this.props.dispatch(push('/submit/billing'));
         })
         .catch((error) => {
 
@@ -116,13 +118,14 @@ export default class SubmitListing extends React.Component {
 
     this.handleSelectPhotosChanges();
   }
-  handleUpload(event) {
+  processFileUploads() {
 
     const files = this.fileInput.files;
     // Get the selected upload(s) from the input element.
     for (const file of files) {
       // Create a new tus upload
       const upload = new tus.Upload(file, {
+        resume: true,
         endpoint: '/api/uploads',
         headers: {
           // Authorization: ['Bearer', getAuthenticationToken()].join(' ')
@@ -139,17 +142,15 @@ export default class SubmitListing extends React.Component {
         },
         onSuccess: () => {
 
-          const id = new RegExp('.*/uploads/(.*)$').exec(upload.url)[1];
-          this.props.actions.uploads.update({ id, listingId: this.state.listing.id })
-            .then((response) => {
-
-              this.props.setCompletedStep('listing');
-              this.props.dispatch(push('/submit/billing'));
-            })
-            .catch((error) => this.props.actions.alert.error(error.message));
+          const fingerprint = new RegExp('.*/uploads/(.*)$').exec(upload.url)[1];
+          const uploads = this.state.listing.uploads;
+          if (!uploads.includes(fingerprint)) {
+            uploads.push(fingerprint);
+            this.setState({ listing: { ...this.state.listing, uploads } });
+          }
         }
       });
-      // Start the upload
+      // Start file upload.
       upload.start();
     }
   }
@@ -160,21 +161,7 @@ export default class SubmitListing extends React.Component {
   }
   handleSelectPhotosChanges() {
 
-    this.fileInput.addEventListener('change', (event) => {
-
-      // Get the selected files from the input element
-      const photos = event.target.files;
-      this.setState({ photos });
-    });
-  }
-  handleSave(event) {
-
-    event.preventDefault();
-    event.persist();
-    this.setState({ isLoading: true }, () => {
-
-      return this.handleUpload(event);
-    });
+    this.fileInput.addEventListener('change', (event) => this.processFileUploads());
   }
   render() {
 
@@ -193,7 +180,7 @@ export default class SubmitListing extends React.Component {
 
     return (
       <div>
-        <Segment as={Form}>
+        <Segment as={Form} loading={this.state.isLoading}>
           <input multiple
             type='file'
             style={{ display: 'none' }}
@@ -261,7 +248,7 @@ export default class SubmitListing extends React.Component {
             />
           </Divider>
           <Button fluid
-            content={`Select Photos (${this.state.photos.length})`}
+            content={`Select Photos (${this.state.listing.uploads.length})`}
             onClick={this.handleSelectPhotos}
           />
         </Segment>

@@ -1,3 +1,4 @@
+const Config = require('config');
 const Path = require('path');
 const Webpack = require('webpack');
 
@@ -73,6 +74,7 @@ module.exports = {
       output: { comments: false }
     }),
     new Webpack.DefinePlugin({
+      '__STRIPE_PUBLISHABLE_KEY__': JSON.stringify(Config.stripe.publishableKey),
       'process.env': {
         NODE_ENV: JSON.stringify(process.env.NODE_ENV || 'development')
       }

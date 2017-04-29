@@ -1,2 +1,4 @@
 
 port: 8000
+stripe:
+  publishableKey: xxx

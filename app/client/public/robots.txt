@@ -1,0 +1,1 @@
+Sitemap: https://www.sliplife.com/api/sitemap.xml

@@ -21,16 +21,27 @@ function log(error) {
   this.emit('end');
 }
 
+// Robots
+gulp.task('robots', () => {
+
+  del(['./app/client/public/robots.txt'], { force: true }).then(() => {
+
+    gulp
+      .src(['./app/client/assets/robots.txt'])
+      .pipe(gulp.dest('./app/client/public/'));
+  });
+});
+
 // Script tasks
 gulp.task('webpack', false, () => {
 
-  del(['./public/js/'], { force: true }).then(() => {
+  del(['./app/client/public/js/'], { force: true }).then(() => {
 
     gulp
-      .src('./assets/js/**/*.js')
+      .src('./app/client/assets/js/**/*.js')
       .pipe(webpack(webpackConfig))
       .on('error', log)
-      .pipe(gulp.dest('./public/js/'));
+      .pipe(gulp.dest('./app/client/public/js/'));
   });
 });
 
@@ -39,41 +50,41 @@ gulp.task('semantic-ui-theme', () => {
 
   gulp
     .src(['../../node_modules/semantic-ui-less/themes/default/assets/**/*'])
-    .pipe(gulp.dest('./public/themes/default/assets'));
+    .pipe(gulp.dest('./app/client/public/themes/default/assets'));
 });
 
 gulp.task('fonts', () => {
 
-  del(['./public/fonts/'], { force: true }).then(() => {
+  del(['./app/client/public/fonts/'], { force: true }).then(() => {
 
     gulp
-      .src(['./assets/fonts/**/*'])
-      .pipe(gulp.dest('./public/fonts/'));
+      .src(['./app/client/assets/fonts/**/*'])
+      .pipe(gulp.dest('./app/client/public/fonts/'));
   });
 });
 
 gulp.task('images', () => {
 
-  del(['./public/images/'], { force: true }).then(() => {
+  del(['./app/client/public/images/'], { force: true }).then(() => {
 
     gulp
-      .src(['./assets/images/**/*'])
+      .src(['./app/client/assets/images/**/*'])
       .pipe(imagemin())
-      .pipe(gulp.dest('./public/images/'));
+      .pipe(gulp.dest('./app/client/public/images/'));
   });
 });
 
 gulp.task('less', false, ['fonts', 'images'], () => {
 
-  del('./public/css/**', { force: true }).then(() => {
+  del('./app/client/public/css/**', { force: true }).then(() => {
 
     gulp
-      .src(['./assets/css/**/*.less'])
+      .src(['./app/client/assets/css/**/*.less'])
       .pipe(less({
         plugins: [
           new LessRewriteImportPlugin({
             paths: {
-              '../../theme.config': 'assets/css/theme.config'
+              '../../theme.config': 'app/client/assets/css/theme.config'
             }
           }),
           new LessPluginCleanCSS({ advanced: true }),
@@ -82,12 +93,12 @@ gulp.task('less', false, ['fonts', 'images'], () => {
       }))
       .pipe(replace('/themes/default/assets/', '/assets/themes/default/assets/'))
       .on('error', log)
-      .pipe(gulp.dest('./public/css/'));
+      .pipe(gulp.dest('./app/client/public/css/'));
   });
 });
 
 // Task groups
 gulp.task('styles', 'Compile source styles to dist directory.', ['less', 'semantic-ui-theme']);
 gulp.task('scripts', 'Compile source scripts to dist directory.', ['webpack']);
-gulp.task('build', 'Run all build tasks.', ['styles']);
+gulp.task('build', 'Run all build tasks.', ['styles', 'robots']);
 gulp.task('default', ['build']);

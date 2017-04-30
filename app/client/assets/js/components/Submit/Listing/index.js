@@ -39,7 +39,9 @@ export default class SubmitListing extends React.Component {
       city: '',
       country: 'us',
       description: '',
+      email: '',
       location: '',
+      phone: '',
       price: '',
       uploads: [],
       state: '',
@@ -47,6 +49,7 @@ export default class SubmitListing extends React.Component {
       terms: '',
       termType: 'flat_rate',
       type: '',
+      vhfChannel: '',
       zip: ''
     }
   };
@@ -391,6 +394,44 @@ export default class SubmitListing extends React.Component {
                 name="country"
                 onChange={this.handleCountryChange}
                 value={this.state.listing.country}
+              />
+            </Form.Field>
+          </Form.Group>
+          <Divider horizontal>
+            <Icon circular
+              name='conversation'
+              color='blue'
+            />
+          </Divider>
+          <Form.Group widths='equal'>
+            <Form.Field error={this.hasValidationError('phone')}>
+              <label>Phone</label>
+              <Input
+                name="phone"
+                onChange={this.handleChange}
+                placeholder='Phone'
+                type="text"
+                value={this.state.listing.phone}
+              />
+            </Form.Field>
+            <Form.Field error={this.hasValidationError('email')}>
+              <label>Email</label>
+              <Input
+                name="email"
+                onChange={this.handleChange}
+                placeholder='Email'
+                type="text"
+                value={this.state.listing.email}
+              />
+            </Form.Field>
+            <Form.Field error={this.hasValidationError('vhfChannel')}>
+              <label>VHF Channel</label>
+              <Input
+                name="vhfChannel"
+                onChange={this.handleChange}
+                placeholder='VHF Channel'
+                type="text"
+                value={this.state.listing.vhfChannel}
               />
             </Form.Field>
           </Form.Group>

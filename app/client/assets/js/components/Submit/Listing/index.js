@@ -39,9 +39,14 @@ export default class SubmitListing extends React.Component {
       city: '',
       description: '',
       location: '',
+      price: '',
       uploads: [],
       state: '',
-      type: ''
+      street: '',
+      terms: '',
+      termType: 'flat_rate',
+      type: '',
+      zip: ''
     }
   };
   constructor(props) {
@@ -53,6 +58,8 @@ export default class SubmitListing extends React.Component {
     this.handleAmenityChange = this.handleAmenityChange.bind(this);
     this.handleLocationChange = this.handleLocationChange.bind(this);
     this.handleTypeChange = this.handleTypeChange.bind(this);
+    this.handlePaymentTermsChange = this.handlePaymentTermsChange.bind(this);
+    this.handlePaymentTermTypeChange = this.handlePaymentTermTypeChange.bind(this);
     this.handleSelectPhotos = this.handleSelectPhotos.bind(this);
   }
   componentWillMount() {
@@ -119,6 +126,14 @@ export default class SubmitListing extends React.Component {
   handleTypeChange(event, data) {
 
     this.setState({ listing: { ...this.state.listing, type: data.value } });
+  }
+  handlePaymentTermsChange(event, data) {
+
+    this.setState({ listing: { ...this.state.listing, terms: data.value } });
+  }
+  handlePaymentTermTypeChange(event, data) {
+
+    this.setState({ listing: { ...this.state.listing, termType: data.value } });
   }
   componentDidMount() {
 
@@ -241,6 +256,14 @@ export default class SubmitListing extends React.Component {
       { key: 'marina', value: 'marina', text: 'Marina' },
       { key: 'vacant_lot', value: 'vacant_lot', text: 'Vacant Lot' }
     ];
+    const paymentTermsOptions = [
+      { key: 'sale', value: 'sale', text: 'For Sale' },
+      { key: 'rent', value: 'rent', text: 'For Rent' }
+    ];
+    const paymentTermTypeOptions = [
+      { key: 'flat_rate', value: 'flat_rate', text: 'Flat Rate' },
+      { key: 'by_foot', value: 'by_foot', text: 'By Foot' }
+    ];
 
     return (
       <div>
@@ -254,7 +277,7 @@ export default class SubmitListing extends React.Component {
             }}
           />
           <Form.Group>
-            <Form.Field error={this.hasValidationError('type')} width='3'>
+            <Form.Field error={this.hasValidationError('location')} width='4'>
               <label>Location</label>
               <Dropdown fluid search selection
                 placeholder='Location'
@@ -264,7 +287,7 @@ export default class SubmitListing extends React.Component {
                 value={this.state.listing.location}
               />
             </Form.Field>
-            <Form.Field error={this.hasValidationError('type')} width='3'>
+            <Form.Field error={this.hasValidationError('type')} width='4'>
               <label>Type</label>
               <Dropdown fluid search selection
                 placeholder='Type'
@@ -274,6 +297,53 @@ export default class SubmitListing extends React.Component {
                 value={this.state.listing.type}
               />
             </Form.Field>
+            <Form.Field error={this.hasValidationError('terms')} width='4'>
+              <label>Payment Terms</label>
+              <Dropdown fluid search selection
+                placeholder='Payment Terms'
+                options={paymentTermsOptions}
+                name="terms"
+                onChange={this.handlePaymentTermsChange}
+                value={this.state.listing.terms}
+              />
+            </Form.Field>
+            <Form.Field error={this.hasValidationError('price')} width='4'>
+              <label>Price</label>
+                <Input
+                  label={<Dropdown
+                      options={paymentTermTypeOptions}
+                      name="termType"
+                      onChange={this.handlePaymentTermTypeChange}
+                      value={this.state.listing.termType}
+                    />
+                  }
+                  name='price'
+                  labelPosition='right'
+                  placeholder='Price'
+                  onChange={this.handleChange}
+                  value={this.state.listing.price}
+                />
+            </Form.Field>
+          </Form.Group>
+          <Divider horizontal>
+            <Icon circular
+              name='marker'
+              color='blue'
+            />
+          </Divider>
+          <Form.Group>
+            <Form.Field error={this.hasValidationError('street')} width='16'>
+              <label>Street</label>
+              <Input
+                name="street"
+                onChange={this.handleChange}
+                placeholder='Street'
+                type="text"
+                value={this.state.listing.street}
+              />
+            </Form.Field>
+          </Form.Group>
+          <Form.Group>
             <Form.Field error={this.hasValidationError('city')} width='6'>
               <label>City</label>
               <Input
@@ -284,7 +354,7 @@ export default class SubmitListing extends React.Component {
                 value={this.state.listing.city}
               />
             </Form.Field>
-            <Form.Field error={this.hasValidationError('state')} width='4'>
+            <Form.Field error={this.hasValidationError('state')} width='7'>
               <label>State</label>
               <Dropdown fluid search selection
                 placeholder='State'
@@ -294,7 +364,23 @@ export default class SubmitListing extends React.Component {
                 value={this.state.listing.state}
               />
             </Form.Field>
+            <Form.Field error={this.hasValidationError('zip')} width='3'>
+              <label>ZIP Code</label>
+              <Input
+                name="zip"
+                onChange={this.handleChange}
+                placeholder='ZIP Code'
+                type="text"
+                value={this.state.listing.zip}
+              />
+            </Form.Field>
           </Form.Group>
+          <Divider horizontal>
+            <Icon circular
+              name='list'
+              color='blue'
+            />
+          </Divider>
           <Form.Field error={this.hasValidationError('amenities')}>
             <label>Amenities</label>
             <Dropdown fluid search selection multiple

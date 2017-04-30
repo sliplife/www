@@ -214,7 +214,7 @@ export default class SubmitListing extends React.Component {
       { key: 'water_taxi', value: 'water_taxi', text: 'Water Taxi' },
       { key: 'wifi', value: 'wifi', text: 'Wi-Fi' },
       { key: 'winter_storage', value: 'winter_storage', text: 'Winter Storage' },
-      { key: 'yacht_brokerage', value: 'yacht_brokerage', text: 'yacht_brokerage' }
+      { key: 'yacht_brokerage', value: 'yacht_brokerage', text: 'Yacht Brokerage' }
     ];
     const typeOptions = [
       { key: 'marina', value: 'marina', text: 'Marina' },

@@ -224,9 +224,10 @@ export default class SubmitListing extends React.Component {
       { key: 'yacht_brokerage', value: 'yacht_brokerage', text: 'Yacht Brokerage' }
     ];
     const typeOptions = [
-      { key: 'marina', value: 'marina', text: 'Marina' },
-      { key: 'rack', value: 'rack', text: 'Rack' },
-      { key: 'trailer', value: 'trailer', text: 'Trailer' }
+      { key: 'dock', value: 'dock', text: 'Dock' },
+      { key: 'dry_storage', value: 'dry_storage', text: 'Dry Storage' },
+      { key: 'mooring', value: 'mooring', text: 'Mooring Buoy' },
+      { key: 'slip', value: 'slip', text: 'Slip' }
     ];
 
     return (

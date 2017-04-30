@@ -28,5 +28,15 @@ module.exports = [
         }
       }
     }
+  },
+  {
+    method: 'GET',
+    path: '/robots.txt',
+    config: {
+      auth: false,
+      handler: {
+        file: Path.join(process.cwd(), 'app', 'client', 'public', 'robots.txt')
+      }
+    }
   }
 ];

@@ -38,6 +38,7 @@ export default class SubmitListing extends React.Component {
       amenities: [],
       city: '',
       description: '',
+      location: '',
       uploads: [],
       state: '',
       type: ''
@@ -50,6 +51,7 @@ export default class SubmitListing extends React.Component {
     this.handleContinue = this.handleContinue.bind(this);
     this.handleStateChange = this.handleStateChange.bind(this);
     this.handleAmenityChange = this.handleAmenityChange.bind(this);
+    this.handleLocationChange = this.handleLocationChange.bind(this);
     this.handleTypeChange = this.handleTypeChange.bind(this);
     this.handleSelectPhotos = this.handleSelectPhotos.bind(this);
   }
@@ -109,6 +111,10 @@ export default class SubmitListing extends React.Component {
   handleAmenityChange(event, data) {
 
     this.setState({ listing: { ...this.state.listing, amenities: data.value } });
+  }
+  handleLocationChange(event, data) {
+
+    this.setState({ listing: { ...this.state.listing, location: data.value } });
   }
   handleTypeChange(event, data) {
 
@@ -229,6 +235,12 @@ export default class SubmitListing extends React.Component {
       { key: 'mooring', value: 'mooring', text: 'Mooring Buoy' },
       { key: 'slip', value: 'slip', text: 'Slip' }
     ];
+    const locationOptions = [
+      { key: 'condo', value: 'condo', text: 'Condo' },
+      { key: 'home', value: 'home', text: 'Home' },
+      { key: 'marina', value: 'marina', text: 'Marina' },
+      { key: 'vacant_lot', value: 'vacant_lot', text: 'Vacant Lot' }
+    ];
 
     return (
       <div>
@@ -242,7 +254,17 @@ export default class SubmitListing extends React.Component {
             }}
           />
           <Form.Group>
-            <Form.Field error={this.hasValidationError('type')} width='4'>
+            <Form.Field error={this.hasValidationError('type')} width='3'>
+              <label>Location</label>
+              <Dropdown fluid search selection
+                placeholder='Location'
+                options={locationOptions}
+                name="location"
+                onChange={this.handleLocationChange}
+                value={this.state.listing.location}
+              />
+            </Form.Field>
+            <Form.Field error={this.hasValidationError('type')} width='3'>
               <label>Type</label>
               <Dropdown fluid search selection
                 placeholder='Type'
@@ -252,7 +274,7 @@ export default class SubmitListing extends React.Component {
                 value={this.state.listing.type}
               />
             </Form.Field>
-            <Form.Field error={this.hasValidationError('city')} width='7'>
+            <Form.Field error={this.hasValidationError('city')} width='6'>
               <label>City</label>
               <Input
                 name="city"
@@ -262,7 +284,7 @@ export default class SubmitListing extends React.Component {
                 value={this.state.listing.city}
               />
             </Form.Field>
-            <Form.Field error={this.hasValidationError('state')} width='5'>
+            <Form.Field error={this.hasValidationError('state')} width='4'>
               <label>State</label>
               <Dropdown fluid search selection
                 placeholder='State'

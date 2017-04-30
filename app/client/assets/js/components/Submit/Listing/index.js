@@ -37,6 +37,7 @@ export default class SubmitListing extends React.Component {
     listing: {
       amenities: [],
       city: '',
+      country: 'us',
       description: '',
       location: '',
       price: '',
@@ -54,6 +55,7 @@ export default class SubmitListing extends React.Component {
     super(props);
     this.handleChange = this.handleChange.bind(this);
     this.handleContinue = this.handleContinue.bind(this);
+    this.handleCountryChange = this.handleCountryChange.bind(this);
     this.handleStateChange = this.handleStateChange.bind(this);
     this.handleAmenityChange = this.handleAmenityChange.bind(this);
     this.handleLocationChange = this.handleLocationChange.bind(this);
@@ -134,6 +136,10 @@ export default class SubmitListing extends React.Component {
   handlePaymentTermTypeChange(event, data) {
 
     this.setState({ listing: { ...this.state.listing, termType: data.value } });
+  }
+  handleCountryChange(event, data) {
+
+    this.setState({ listing: { ...this.state.listing, country: data.value } });
   }
   componentDidMount() {
 
@@ -264,6 +270,9 @@ export default class SubmitListing extends React.Component {
       { key: 'flat_rate', value: 'flat_rate', text: 'Flat Rate' },
       { key: 'by_foot', value: 'by_foot', text: 'By Foot' }
     ];
+    const countryOptions = [
+      { key: 'us', value: 'us', flag: 'us', text: 'United States' }
+    ];
 
     return (
       <div>
@@ -372,6 +381,16 @@ export default class SubmitListing extends React.Component {
                 placeholder='ZIP Code'
                 type="text"
                 value={this.state.listing.zip}
+              />
+            </Form.Field>
+            <Form.Field error={this.hasValidationError('country')} width='7'>
+              <label>Country</label>
+              <Dropdown fluid search selection
+                placeholder='Country'
+                options={countryOptions}
+                name="country"
+                onChange={this.handleCountryChange}
+                value={this.state.listing.country}
               />
             </Form.Field>
           </Form.Group>

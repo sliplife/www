@@ -75,6 +75,7 @@ module.exports = {
     }),
     new Webpack.DefinePlugin({
       '__STRIPE_PUBLISHABLE_KEY__': JSON.stringify(Config.stripe.publishableKey),
+      '__GOOGLE_ANALYTICS_KEY__': JSON.stringify(Config.google.analyticsKey),
       'process.env': {
         NODE_ENV: JSON.stringify(process.env.NODE_ENV || 'development')
       }

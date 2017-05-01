@@ -12,16 +12,14 @@ import { NProgress } from 'components';
 import configureStore from 'store/configureStore';
 import ReactGA from 'react-ga';
 
-ReactGA.initialize('UA-22475281-1');
+ReactGA.initialize(__GOOGLE_ANALYTICS_KEY__);
 
 const reduxStore = configureStore();
 const history = syncHistoryWithStore(browserHistory, reduxStore);
 history.listen((location, action) => {
 
-  if (window.location.hostname === 'www.sliplife.com') {
-    ReactGA.set({ page: location.pathname });
-    ReactGA.pageview(location.pathname);
-  }
+  ReactGA.set({ page: location.pathname });
+  ReactGA.pageview(location.pathname);
   if (['POP', 'PUSH'].includes(location.action)) {
     NProgress.start();
   }

@@ -2,6 +2,7 @@ import { createAction } from 'redux-actions';
 import jwtDecode from 'jwt-decode';
 import { api } from 'actions';
 import Cookies from 'js-cookie';
+import ReactGA from 'react-ga';
 
 const requestHandler = createAction('AUTH_REQUEST');
 const logoutHandler = createAction('AUTH_LOGOUT');
@@ -27,14 +28,31 @@ export const signup = (body) => {
 
   return (dispatch, getState) => {
 
+    ReactGA.event({
+      category: 'Authentication',
+      action: 'Signup Submit',
+      label: 'Onsite'
+    });
     const state = getState();
     dispatch(requestHandler());
     return dispatch(api.connect(state.api.domain))
       .then((client) => client.Auth.signup({ body }))
-      .then((response) => dispatch(signupHandler()))
+      .then((response) => {
+
+        ReactGA.event({
+          category: 'Authentication',
+          action: 'Signup Success',
+          label: 'Onsite'
+        });
+        return dispatch(signupHandler());
+      })
       .catch((response) => {
 
-        console.log(response);
+        ReactGA.event({
+          category: 'Authentication',
+          action: 'Signup Fail',
+          label: `Onsite: ${response.obj.message}`
+        });
         dispatch(errorHandler(response.obj));
         return Promise.reject(response.obj);
       });
@@ -55,6 +73,11 @@ export const login = (body = {}) => {
 
   return (dispatch, getState) => {
 
+    ReactGA.event({
+      category: 'Authentication',
+      action: 'Login Submit',
+      label: 'Onsite'
+    });
     const state = getState();
     dispatch(requestHandler());
     return dispatch(api.connect(state.api.domain))
@@ -68,9 +91,22 @@ export const login = (body = {}) => {
         }
         return client.Auth.post({ body });
       })
-      .then((response) => dispatch(loginHandler(response.obj || response)))
+      .then((response) => {
+
+        ReactGA.event({
+          category: 'Authentication',
+          action: 'Login Success',
+          label: 'Onsite'
+        });
+        return dispatch(loginHandler(response.obj || response));
+      })
       .catch((response) => {
 
+        ReactGA.event({
+          category: 'Authentication',
+          action: 'Login Fail',
+          label: `Onsite: ${response.obj.message}`
+        });
         dispatch(errorHandler(response.obj));
         return Promise.reject(response.obj);
       });

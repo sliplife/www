@@ -31,7 +31,8 @@ export const createCharge = (body) => {
         ReactGA.event({
           category: 'Stripe',
           action: 'Create Charge Success',
-          label: 'Onsite'
+          label: 'Onsite',
+          value: (response.obj.charge.amount / 100) || 0
         });
         return dispatch(createChargeHandler(response.obj));
       })

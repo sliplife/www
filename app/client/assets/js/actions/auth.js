@@ -30,7 +30,7 @@ export const signup = (body) => {
 
     ReactGA.event({
       category: 'Authentication',
-      action: 'Signup Submit',
+      action: 'Signup',
       label: 'Onsite'
     });
     const state = getState();
@@ -64,6 +64,11 @@ export const logout = () => {
 
   return (dispatch) => {
 
+    ReactGA.event({
+      category: 'Authentication',
+      action: 'Logout',
+      label: 'Onsite'
+    });
     localStorage.removeItem('token');
     Cookies.remove('token');
     dispatch(logoutHandler());
@@ -75,7 +80,7 @@ export const login = (body = {}) => {
 
     ReactGA.event({
       category: 'Authentication',
-      action: 'Login Submit',
+      action: 'Login',
       label: 'Onsite'
     });
     const state = getState();
@@ -116,13 +121,31 @@ export const sendRecovery = (body) => {
 
   return (dispatch, getState) => {
 
+    ReactGA.event({
+      category: 'Authentication',
+      action: 'Send Recovery Email',
+      label: 'Onsite'
+    });
     const state = getState();
     dispatch(requestHandler());
     return dispatch(api.connect(state.api.domain))
       .then((client) => client.Tokens.post({ body }))
-      .then((response) => dispatch(sendRecoveryHandler(response.obj)))
+      .then((response) => {
+
+        ReactGA.event({
+          category: 'Authentication',
+          action: 'Send Recovery Email Success',
+          label: 'Onsite'
+        });
+        return dispatch(sendRecoveryHandler(response.obj));
+      })
       .catch((response) => {
 
+        ReactGA.event({
+          category: 'Authentication',
+          action: 'Send Recovery Email Fail',
+          label: `Onsite: ${response.obj.message}`
+        });
         dispatch(errorHandler(response.obj));
         return Promise.reject(response.obj);
       });
@@ -132,17 +155,31 @@ export const updatePassword = (body) => {
 
   return (dispatch, getState) => {
 
+    ReactGA.event({
+      category: 'Authentication',
+      action: 'Password Reset',
+      label: 'Onsite'
+    });
     const state = getState();
     dispatch(requestHandler());
     return dispatch(api.connect(state.api.domain))
       .then((client) => client.Auth.put({ body }))
       .then((response) => {
 
-        dispatch(updatePasswordHandler(response.obj));
-        dispatch(loginHandler(response.obj));
+        ReactGA.event({
+          category: 'Authentication',
+          action: 'Password Reset Success',
+          label: 'Onsite'
+        });
+        return dispatch(updatePasswordHandler(response.obj));
       })
       .catch((response) => {
 
+        ReactGA.event({
+          category: 'Authentication',
+          action: 'Password Reset Fail',
+          label: `Onsite: ${response.obj.message}`
+        });
         dispatch(errorHandler(response.obj));
         return Promise.reject(response.obj);
       });

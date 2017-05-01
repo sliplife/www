@@ -1,5 +1,6 @@
 import { createAction } from 'redux-actions';
 import { api } from 'actions';
+import ReactGA from 'react-ga';
 
 const browseHandler = createAction('LISTINGS_BROWSE');
 const createHandler = createAction('LISTINGS_CREATE');
@@ -19,13 +20,31 @@ export const create = (body) => {
 
   return (dispatch, getState) => {
 
+    ReactGA.event({
+      category: 'Listings',
+      action: 'Create',
+      label: 'Onsite'
+    });
     const state = getState();
     dispatch(requestHandler());
     return dispatch(api.connect(state.api.domain))
       .then((client) => client.Listings.post({ body }))
-      .then((response) => dispatch(createHandler(response.obj)))
+      .then((response) => {
+
+        ReactGA.event({
+          category: 'Listings',
+          action: 'Create Success',
+          label: 'Onsite'
+        });
+        return dispatch(createHandler(response.obj));
+      })
       .catch((response) => {
 
+        ReactGA.event({
+          category: 'Listings',
+          action: 'Create Fail',
+          label: `Onsite: ${response.obj.message}`
+        });
         dispatch(errorHandler(response.obj));
         return Promise.reject(response.obj);
       });
@@ -35,6 +54,11 @@ export const update = (body) => {
 
   return (dispatch, getState) => {
 
+    ReactGA.event({
+      category: 'Listings',
+      action: 'Update',
+      label: 'Onsite'
+    });
     const state = getState();
     dispatch(requestHandler());
     return dispatch(api.connect(state.api.domain))
@@ -43,9 +67,22 @@ export const update = (body) => {
         const { id } = body;
         return client.Listings.put({ id, body });
       })
-      .then((response) => dispatch(updateHandler(response.obj)))
+      .then((response) => {
+
+        ReactGA.event({
+          category: 'Listings',
+          action: 'Update Success',
+          label: 'Onsite'
+        });
+        return dispatch(updateHandler(response.obj));
+      })
       .catch((response) => {
 
+        ReactGA.event({
+          category: 'Listings',
+          action: 'Update Fail',
+          label: `Onsite: ${response.obj.message}`
+        });
         dispatch(errorHandler(response.obj));
         return Promise.reject(response.obj);
       });
@@ -55,13 +92,31 @@ export const browse = (params) => {
 
   return (dispatch, getState) => {
 
+    ReactGA.event({
+      category: 'Listings',
+      action: 'Browse',
+      label: 'Onsite'
+    });
     const state = getState();
     dispatch(requestHandler());
     return dispatch(api.connect(state.api.domain))
       .then((client) => client.Listings.browse(params))
-      .then((response) => dispatch(browseHandler(response.obj)))
+      .then((response) => {
+
+        ReactGA.event({
+          category: 'Listings',
+          action: 'Browse Success',
+          label: 'Onsite'
+        });
+        return dispatch(browseHandler(response.obj));
+      })
       .catch((response) => {
 
+        ReactGA.event({
+          category: 'Listings',
+          action: 'Browse Fail',
+          label: `Onsite: ${response.obj.message}`
+        });
         dispatch(errorHandler(response.obj));
         return Promise.reject(response.obj);
       });
@@ -71,13 +126,31 @@ export const search = (params) => {
 
   return (dispatch, getState) => {
 
+    ReactGA.event({
+      category: 'Listings',
+      action: 'Search',
+      label: 'Onsite'
+    });
     const state = getState();
     dispatch(requestHandler());
     return dispatch(api.connect(state.api.domain))
       .then((client) => client.Listings.browse(params))
-      .then((response) => dispatch(searchHandler(response.obj)))
+      .then((response) => {
+
+        ReactGA.event({
+          category: 'Listings',
+          action: 'Search Success',
+          label: 'Onsite'
+        });
+        return dispatch(searchHandler(response.obj));
+      })
       .catch((response) => {
 
+        ReactGA.event({
+          category: 'Listings',
+          action: 'Search Fail',
+          label: `Onsite: ${response.obj.message}`
+        });
         dispatch(errorHandler(response.obj));
         return Promise.reject(response.obj);
       });
@@ -87,13 +160,31 @@ export const read = (id, options = {}) => {
 
   return (dispatch, getState) => {
 
+    ReactGA.event({
+      category: 'Listings',
+      action: 'Read',
+      label: 'Onsite'
+    });
     const state = getState();
     dispatch(requestHandler());
     return dispatch(api.connect(state.api.domain))
       .then((client) => client.Listings.get({ id, ...options }))
-      .then((response) => dispatch(readHandler(response.obj)))
+      .then((response) => {
+
+        ReactGA.event({
+          category: 'Listings',
+          action: 'Read Success',
+          label: 'Onsite'
+        });
+        return dispatch(readHandler(response.obj));
+      })
       .catch((response) => {
 
+        ReactGA.event({
+          category: 'Listings',
+          action: 'Read Fail',
+          label: `Onsite: ${response.obj.message}`
+        });
         dispatch(errorHandler(response.obj));
         return Promise.reject(response.obj);
       });
@@ -103,13 +194,31 @@ export const destroy = (id) => {
 
   return (dispatch, getState) => {
 
+    ReactGA.event({
+      category: 'Listings',
+      action: 'Delete',
+      label: 'Onsite'
+    });
     const state = getState();
     dispatch(requestHandler());
     return dispatch(api.connect(state.api.domain))
       .then((client) => client.Listings.delete({ id }))
-      .then((response) => dispatch(destroyHandler(response.obj)))
+      .then((response) => {
+
+        ReactGA.event({
+          category: 'Listings',
+          action: 'Delete Success',
+          label: 'Onsite'
+        });
+        return dispatch(destroyHandler(response.obj));
+      })
       .catch((response) => {
 
+        ReactGA.event({
+          category: 'Listings',
+          action: 'Delete Fail',
+          label: `Onsite: ${response.obj.message}`
+        });
         dispatch(errorHandler(response.obj));
         return Promise.reject(response.obj);
       });

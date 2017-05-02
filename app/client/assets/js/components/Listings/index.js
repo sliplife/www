@@ -197,7 +197,7 @@ export default class Home extends React.Component {
                       </Item.Meta>
                       <Item.Description><p>{listing.description}</p></Item.Description>
                       <Item.Extra>
-                        <Label color='orange'>New</Label>
+                        {listing.isNew  ? <Label color='orange'>New</Label> : null }
                         <Label>Rack</Label>
                         <Button primary floated='right' as={Link} to={`/listings/${listing.id}`}>
                           View Listing

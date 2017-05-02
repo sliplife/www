@@ -3,7 +3,7 @@ import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { Link, browserHistory } from 'react-router';
 import { bindActionCreators } from 'redux';
-import { Button, Divider, Icon, Item, Label, Segment } from 'semantic-ui-react';
+import { Button, Divider, Grid, Icon, Item, Label, List, Segment } from 'semantic-ui-react';
 import { CircleMarker, Map, Popup, TileLayer } from 'react-leaflet';
 import * as actionCreators from 'actions';
 import { Loading, NProgress } from 'components';
@@ -27,8 +27,16 @@ export default class ListingsDetail extends React.Component {
     routeParams: PropTypes.object.isRequired
   };
   state = {
-    isLoading: true
+    isLoading: true,
+    phone: false,
+    email: false
   };
+  constructor(props) {
+
+    super(props);
+    this.handleCallPhoneNumber = this.handleCallPhoneNumber.bind(this);
+    this.handleWriteEmailAddress = this.handleWriteEmailAddress.bind(this);
+  }
   componentDidMount() {
 
     this.props.actions.listings.read(this.props.routeParams.id, { with: 'uploads' })
@@ -47,6 +55,14 @@ export default class ListingsDetail extends React.Component {
           .then(() => this.setState({ isLoading: false }, NProgress.done));
       });
     }
+  }
+  handleCallPhoneNumber() {
+
+    this.setState({ phone: this.props.listing.phone });
+  }
+  handleWriteEmailAddress() {
+
+    this.setState({ email: this.props.listing.email });
   }
   render() {
 
@@ -108,7 +124,26 @@ export default class ListingsDetail extends React.Component {
             />
           </Divider>
           <Segment>
-
+            <Grid stackable>
+              <Grid.Row>
+                <Grid.Column width={8}>
+                  <Button fluid secondary
+                    content={this.state.phone || 'Call Phone Number'}
+                    icon='phone'
+                    labelPosition='left'
+                    onClick={this.handleCallPhoneNumber}
+                  />
+                </Grid.Column>
+                <Grid.Column width={8}>
+                  <Button fluid primary
+                    content={this.state.email || 'Write Email Address'}
+                    icon='mail'
+                    labelPosition='left'
+                    onClick={this.handleWriteEmailAddress}
+                  />
+                </Grid.Column>
+              </Grid.Row>
+            </Grid>
           </Segment>
           <Divider horizontal>
             <Icon circular
@@ -130,7 +165,7 @@ export default class ListingsDetail extends React.Component {
           </Segment>
         </Segment>
         <Segment>
-          <Button onClick={browserHistory.goBack} content='Back' icon='left arrow' labelPosition='left' secondary fluid />
+          <Button onClick={browserHistory.goBack} content='Back' icon='left arrow' labelPosition='left' fluid />
         </Segment>
       </div>;
   }

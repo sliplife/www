@@ -1,4 +1,5 @@
 import debounce from 'lodash/debounce';
+import capitalize from 'lodash/capitalize';
 import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { push } from 'react-router-redux';
@@ -193,14 +194,14 @@ export default class Home extends React.Component {
                     <Item.Content>
                       <Item.Header as={Link} to={`/listings/${listing.id}`}>{listing.city}</Item.Header>
                       <Item.Meta>
-                        <span className='cinema'>{listing.state}</span>
+                        <span className='cinema'>{listing.state}, {listing.zip}</span>
                       </Item.Meta>
                       <Item.Description><p>{listing.description}</p></Item.Description>
                       <Item.Extra>
-                        {listing.isNew  ? <Label color='orange'>New</Label> : null }
-                        <Label>Rack</Label>
+                        {listing.isNew  ? <Label color='orange' size='mini'>New</Label> : null }
+                        <Label size='mini'>{listing.typeName}</Label>
                         <Button primary floated='right' as={Link} to={`/listings/${listing.id}`}>
-                          View Listing
+                          For {capitalize(listing.terms)}
                           <Icon name='right chevron' />
                         </Button>
                       </Item.Extra>

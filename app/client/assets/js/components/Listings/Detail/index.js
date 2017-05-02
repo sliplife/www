@@ -5,7 +5,7 @@ import { FormattedNumber } from 'react-intl';
 import { connect } from 'react-redux';
 import { Link, browserHistory } from 'react-router';
 import { bindActionCreators } from 'redux';
-import { Button, Divider, Grid, Icon, Item, Label, List, Segment, Table } from 'semantic-ui-react';
+import { Button, Divider, Grid, Icon, Item, Image, Label, List, Segment, Table } from 'semantic-ui-react';
 import { CircleMarker, Map, Popup, TileLayer } from 'react-leaflet';
 import * as actionCreators from 'actions';
 import { Loading, NProgress } from 'components';
@@ -78,7 +78,8 @@ export default class ListingsDetail extends React.Component {
   }
   render() {
 
-    const imageUrl = (this.state.isLoading === true || !this.props.listing.uploads[0]) ? '/assets/images/image.png' : `${this.props.listing.uploads[0].url}?width=480&height=398`;
+    const imageUrl = (this.state.isLoading === true || !this.props.listing.uploads[0]) ? '/assets/images/image.png' : `${this.props.listing.uploads[0].url}?width=480&height=400`;
+    const imageWideUrl = (this.state.isLoading === true || !this.props.listing.uploads[0]) ? '/assets/images/image.png' : `${this.props.listing.uploads[0].url}?width=700&height=350`;
     const position = [this.props.listing.latitude, this.props.listing.longitude];
     const map = (
       <Map center={position} zoom={12} style={{ height: '300px', width: 'auto' }} attributionControl={false} scrollWheelZoom={false}>
@@ -262,7 +263,7 @@ export default class ListingsDetail extends React.Component {
             />
           </Divider>
           <Segment>
-
+            <Image fluid src={imageWideUrl} />
           </Segment>
         </Segment>
         <Segment>

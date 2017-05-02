@@ -1,6 +1,7 @@
 import debounce from 'lodash/debounce';
 import capitalize from 'lodash/capitalize';
 import React, { PropTypes } from 'react';
+import { FormattedNumber } from 'react-intl';
 import { connect } from 'react-redux';
 import { push } from 'react-router-redux';
 import { Link } from 'react-router';
@@ -186,11 +187,12 @@ export default class Home extends React.Component {
               {this.state.isLoading ? <Loading /> : this.props.listings.listings.map((listing) => {
 
                 const imageUrl = (listing.uploads.length > 0) ? `${listing.uploads[0].url}?width=480&height=398` : '/assets/images/image.png';
-
+                const price = <FormattedNumber value={listing.price} style='currency' currency='usd' />;
+                const imageLabel = <Label attached='top'>{price} {listing.termType === 'by_foot' ? 'per foot' : ''}</Label>;
                 return (
                   <Item key={listing.id}>
 
-                    <Item.Image as={Link} to={`/listings/${listing.id}`} src={imageUrl} label={{ color: 'red', corner: 'right', icon: 'anchor' }} />
+                    <Item.Image as={Link} to={`/listings/${listing.id}`} src={imageUrl} label={{ content: imageLabel }} />
                     <Item.Content>
                       <Item.Header as={Link} to={`/listings/${listing.id}`}>{listing.city}</Item.Header>
                       <Item.Meta>

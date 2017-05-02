@@ -1,6 +1,7 @@
 import capitalize from 'lodash/capitalize';
 import chunk from 'lodash/chunk';
 import React, { PropTypes } from 'react';
+import { FormattedNumber } from 'react-intl';
 import { connect } from 'react-redux';
 import { Link, browserHistory } from 'react-router';
 import { bindActionCreators } from 'redux';
@@ -168,13 +169,14 @@ export default class ListingsDetail extends React.Component {
       });
       return <Table.Row>{amenityCells}</Table.Row>;
     });
-
+    const price = <FormattedNumber value={this.props.listing.price} style='currency' currency='usd' />;
+    const imageLabel = <Label attached='top'>{price} {this.props.listing.termType === 'by_foot' ? 'per foot' : ''}</Label>;
     return (this.state.isLoading === true) ? <Segment attached='bottom'><Loading /></Segment> :
       <div>
         <Segment attached='bottom'>
           <Item.Group>
             <Item>
-              <Item.Image as={Link} to={`/listings/${this.props.listing.id}`} src={imageUrl} label={{ content: <Label attached='top'>For {capitalize(this.props.listing.terms)} {this.props.listing.price}</Label> }} />
+              <Item.Image as={Link} to={`/listings/${this.props.listing.id}`} src={imageUrl} label={{ content: imageLabel }} />
               <Item.Content>
                 <Item.Header as={Link} to={`/listings/${this.props.listing.id}`}>{this.props.listing.city}</Item.Header>
                 <Item.Meta>
@@ -184,6 +186,7 @@ export default class ListingsDetail extends React.Component {
                 <Item.Extra>
                   {this.props.listing.isNew  ? <Label color='orange' size='mini'>New</Label> : null }
                   <Label size='mini'>{this.props.listing.typeName}</Label>
+                  <Label size='mini'>For {capitalize(this.props.listing.terms)}</Label>
                 </Item.Extra>
               </Item.Content>
             </Item>

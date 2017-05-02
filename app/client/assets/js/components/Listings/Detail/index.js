@@ -58,7 +58,8 @@ export default class ListingsDetail extends React.Component {
   }
   handleCallPhoneNumber() {
 
-    this.setState({ phone: this.props.listing.phone });
+    const phone = this.props.listing.phone;
+    this.setState({ phone }, () => window.open(`tel:${phone}`));
   }
   handleWriteEmailAddress() {
 

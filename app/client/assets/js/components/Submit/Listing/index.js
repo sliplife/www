@@ -34,6 +34,7 @@ export default class SubmitListing extends React.Component {
   };
   state = {
     isLoading: true,
+    isUploading: false,
     listing: {
       amenities: [],
       city: '',
@@ -150,6 +151,7 @@ export default class SubmitListing extends React.Component {
   }
   processFileUploads() {
 
+    this.setState({ isUploading: true });
     const files = this.fileInput.files;
     // Get the selected upload(s) from the input element.
     for (const file of files) {
@@ -162,11 +164,12 @@ export default class SubmitListing extends React.Component {
         },
         onError: (error) => {
 
-          this.setState({ isLoading: false }, () => this.props.actions.alert.error(error));
+          this.setState({ isUploading: false }, () => this.props.actions.alert.error(error));
           NProgress.done();
         },
         onProgress: (bytesUploaded, bytesTotal) => {
 
+          this.setState({ isUploading: true });
           const percentage = (bytesUploaded / bytesTotal * 100).toFixed(2);
           NProgress.set(percentage / 100);
         },
@@ -176,7 +179,7 @@ export default class SubmitListing extends React.Component {
           const uploads = this.state.listing.uploads;
           if (!uploads.includes(fingerprint)) {
             uploads.push(fingerprint);
-            this.setState({ listing: { ...this.state.listing, uploads } });
+            this.setState({ isUploading: false, listing: { ...this.state.listing, uploads } });
           }
         }
       });
@@ -468,6 +471,8 @@ export default class SubmitListing extends React.Component {
             />
           </Divider>
           <Button fluid
+            disabled={this.state.isUploading}
+            loading={this.state.isUploading}
             content={`Select Photos (${this.state.listing.uploads.length})`}
             onClick={this.handleSelectPhotos}
           />

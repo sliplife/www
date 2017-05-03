@@ -40,7 +40,7 @@ export default class ListingsDetail extends React.Component {
 
     super(props);
     this.handleCallPhoneNumber = this.handleCallPhoneNumber.bind(this);
-    this.handleWriteEmailAddress = this.handleWriteEmailAddress.bind(this);
+    this.WriteAnEmail = this.WriteAnEmail.bind(this);
     this.handleShowAmenities = this.handleShowAmenities.bind(this);
   }
   componentDidMount() {
@@ -70,7 +70,7 @@ export default class ListingsDetail extends React.Component {
       window.location.href = `tel:${phone}`;
     });
   }
-  handleWriteEmailAddress() {
+  WriteAnEmail() {
 
     this.setState({ email: this.props.listing.email });
   }
@@ -233,10 +233,10 @@ export default class ListingsDetail extends React.Component {
                 </Grid.Column>
                 <Grid.Column width={8}>
                   <Button fluid primary
-                    content={this.state.email || 'Write Email Address'}
+                    content={this.state.email || 'Write An Email'}
                     icon='mail'
                     labelPosition='left'
-                    onClick={this.handleWriteEmailAddress}
+                    onClick={this.WriteAnEmail}
                   />
                 </Grid.Column>
               </Grid.Row>

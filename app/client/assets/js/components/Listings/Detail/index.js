@@ -242,7 +242,7 @@ export default class ListingsDetail extends React.Component {
               <Item.Content>
                 <Item.Header as={Link} to={`/listings/${this.props.listing.id}`}>{this.props.listing.city}</Item.Header>
                 <Item.Meta>
-                  <span className='cinema'>{this.props.listing.state}, {this.props.listing.zip}</span>
+                  <span className='cinema'>{this.props.listing.locationName} in {this.props.listing.state}, {this.props.listing.zip}</span>
                 </Item.Meta>
                 <Item.Description>{this.props.listing.description}</Item.Description>
                 <Item.Extra>

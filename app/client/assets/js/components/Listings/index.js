@@ -196,7 +196,7 @@ export default class Home extends React.Component {
                     <Item.Content>
                       <Item.Header as={Link} to={`/listings/${listing.id}`}>{listing.city}</Item.Header>
                       <Item.Meta>
-                        <span className='cinema'>{listing.state}, {listing.zip}</span>
+                        <span className='cinema'>{listing.locationName} in {listing.state}, {listing.zip}</span>
                       </Item.Meta>
                       <Item.Description><p>{listing.description}</p></Item.Description>
                       <Item.Extra>

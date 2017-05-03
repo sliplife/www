@@ -1,4 +1,5 @@
 import get from 'lodash/get';
+import startsWith from 'lodash/startsWith';
 import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { push, replace } from 'react-router-redux';
@@ -76,21 +77,32 @@ export default class SubmitListing extends React.Component {
     if (this.props.steps.listing.completed) {
       return this.props.dispatch(replace('/submit/billing'));
     }
+
     this.setState({ isLoading: false });
     this.props.setActiveStep('listing');
   }
   componentWillUnmount() {
 
+    this.clearTusStorage();
     this.props.setActiveStep(false);
   }
   componentDidMount() {
 
+    this.clearTusStorage();
     this.handleSelectPhotosChanges();
     NProgress.done();
   }
   hasValidationError(validationKey) {
 
     return (get(this.props.error, 'validation.keys') && this.props.error.validation.keys.includes(validationKey)) ? true : false;
+  }
+  clearTusStorage() {
+
+    for (const resumableKey in localStorage) {
+      if (startsWith(resumableKey, 'tus')) {
+        localStorage.removeItem(resumableKey);
+      }
+    }
   }
   handleContinue(event) {
 
@@ -101,6 +113,7 @@ export default class SubmitListing extends React.Component {
       this.props.actions.listings.create({ ...listing })
         .then((response) => {
 
+          this.clearTusStorage();
           this.props.setCompletedStep('listing');
           this.props.dispatch(push('/submit/billing'));
         })

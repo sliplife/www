@@ -5,8 +5,9 @@ import { FormattedNumber } from 'react-intl';
 import { connect } from 'react-redux';
 import { Link, browserHistory } from 'react-router';
 import { bindActionCreators } from 'redux';
-import { Button, Divider, Grid, Icon, Item, Image, Label, List, Segment, Table } from 'semantic-ui-react';
+import { Button, Divider, Grid, Icon, Item, Image, Label, Segment, Table } from 'semantic-ui-react';
 import { CircleMarker, Map, Popup, TileLayer } from 'react-leaflet';
+import Slider from 'react-slick';
 import * as actionCreators from 'actions';
 import { Loading, NProgress } from 'components';
 
@@ -32,7 +33,8 @@ export default class ListingsDetail extends React.Component {
     isLoading: true,
     phone: false,
     email: false,
-    showAmenities: false
+    showAmenities: false,
+    photoSlideIndex: 1
   };
   constructor(props) {
 
@@ -79,7 +81,6 @@ export default class ListingsDetail extends React.Component {
   render() {
 
     const imageUrl = (this.state.isLoading === true || !this.props.listing.uploads[0]) ? '/assets/images/image.png' : `${this.props.listing.uploads[0].url}?width=480&height=400`;
-    const imageWideUrl = (this.state.isLoading === true || !this.props.listing.uploads[0]) ? '/assets/images/image.png' : `${this.props.listing.uploads[0].url}?width=700&height=350`;
     const position = [this.props.listing.latitude, this.props.listing.longitude];
     const map = (
       <Map center={position} zoom={12} style={{ height: '300px', width: 'auto' }} attributionControl={false} scrollWheelZoom={false}>
@@ -172,6 +173,15 @@ export default class ListingsDetail extends React.Component {
     });
     const price = <FormattedNumber value={this.props.listing.price} style='currency' currency='usd' />;
     const imageLabel = <Label attached='top'>{price} {this.props.listing.termType === 'by_foot' ? 'per foot' : ''}</Label>;
+    const sliderOptions = {
+      dots: false,
+      infinite: true,
+      speed: 500,
+      slidesToShow: 1,
+      slidesToScroll: 1,
+      draggable: false,
+      afterChange: (currentIndex) => this.setState({ photoSlideIndex: currentIndex + 1 })
+    };
     return (this.state.isLoading === true) ? <Segment attached='bottom'><Loading /></Segment> :
       <div>
         <Segment attached='bottom'>
@@ -198,7 +208,7 @@ export default class ListingsDetail extends React.Component {
               color='blue'
             />
           </Divider>
-          <Segment>
+          <Segment color='blue'>
             <Label attached='top'>
               {this.props.listing.street}
             </Label>
@@ -262,8 +272,17 @@ export default class ListingsDetail extends React.Component {
               color='blue'
             />
           </Divider>
-          <Segment>
-            <Image fluid src={imageWideUrl} />
+          <Segment color='yellow'>
+            <Label attached='top'>
+              Photo {this.state.photoSlideIndex} of {this.props.listing.uploads.length}
+            </Label>
+            <Slider {...sliderOptions}>
+              {this.props.listing.uploads && this.props.listing.uploads.map((upload) => {
+
+                const imageWideUrl = `${upload.url}?width=700&height=350`;
+                return <Image fluid src={imageWideUrl} />;
+              })}
+            </Slider>
           </Segment>
         </Segment>
         <Segment>

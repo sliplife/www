@@ -49,7 +49,7 @@ gulp.task('webpack', false, () => {
 gulp.task('semantic-ui-theme', () => {
 
   gulp
-    .src(['../../node_modules/semantic-ui-less/themes/default/assets/**/*'])
+    .src(['./node_modules/semantic-ui-less/themes/default/assets/**/*'])
     .pipe(gulp.dest('./app/client/public/themes/default/assets'));
 });
 
@@ -60,6 +60,9 @@ gulp.task('fonts', () => {
     gulp
       .src(['./app/client/assets/fonts/**/*'])
       .pipe(gulp.dest('./app/client/public/fonts/'));
+    gulp
+      .src(['./node_modules/slick-carousel/slick/fonts/**/*'])
+      .pipe(gulp.dest('./app/client/public/fonts/slick/'));
   });
 });
 
@@ -91,9 +94,11 @@ gulp.task('less', false, ['fonts', 'images'], () => {
           new LessPluginAutoPrefix({ browsers: ['last 2 versions'] })
         ]
       }))
-      .pipe(replace('/themes/default/assets/', '/assets/themes/default/assets/'))
+      .pipe(replace('/themes/default/assets/', '/assets/themes/default/assets/')) // SUI
+      .pipe(replace('./fonts', '/assets/fonts/slick')) // Slick
       .on('error', log)
       .pipe(gulp.dest('./app/client/public/css/'));
+
   });
 });
 

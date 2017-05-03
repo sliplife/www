@@ -8,6 +8,7 @@ import { bindActionCreators } from 'redux';
 import { Button, Divider, Grid, Icon, Item, Image, Label, Segment, Table } from 'semantic-ui-react';
 import { CircleMarker, Map, Popup, TileLayer } from 'react-leaflet';
 import Slider from 'react-slick';
+import ReactGA from 'react-ga';
 import * as actionCreators from 'actions';
 import { Loading, NProgress } from 'components';
 
@@ -64,19 +65,53 @@ export default class ListingsDetail extends React.Component {
   }
   handleCallPhoneNumber() {
 
+    ReactGA.event({
+      category: 'Listings',
+      action: 'Call Phone Number',
+      label: 'Onsite'
+    });
     const phone = this.props.listing.phone;
     this.setState({ phone }, () => {
 
+      ReactGA.event({
+        category: 'Listings',
+        action: 'Call Phone Number Success',
+        label: 'Onsite'
+      });
       window.location.href = `tel:${phone}`;
     });
   }
   WriteAnEmail() {
 
-    this.setState({ email: this.props.listing.email });
+    ReactGA.event({
+      category: 'Listings',
+      action: 'Write An Email',
+      label: 'Onsite'
+    });
+    this.setState({ email: this.props.listing.email }, () => {
+
+      ReactGA.event({
+        category: 'Listings',
+        action: 'Write An Email Success',
+        label: 'Onsite'
+      });
+    });
   }
   handleShowAmenities() {
 
-    this.setState({ showAmenities: !this.state.showAmenities });
+    ReactGA.event({
+      category: 'Listings',
+      action: 'Show Amenities',
+      label: 'Onsite'
+    });
+    this.setState({ showAmenities: !this.state.showAmenities }, () => {
+
+      ReactGA.event({
+        category: 'Listings',
+        action: 'Show Amenities Success',
+        label: 'Onsite'
+      });
+    });
   }
   render() {
 
@@ -180,7 +215,23 @@ export default class ListingsDetail extends React.Component {
       slidesToShow: 1,
       slidesToScroll: 1,
       draggable: false,
-      afterChange: (currentIndex) => this.setState({ photoSlideIndex: currentIndex + 1 })
+      beforeChange: () => {
+
+        ReactGA.event({
+          category: 'Listings',
+          action: 'Cycle Photo Slider',
+          label: 'Onsite'
+        });
+      },
+      afterChange: (currentIndex) => {
+
+        ReactGA.event({
+          category: 'Listings',
+          action: 'Cycle Photo Slider Success',
+          label: 'Onsite'
+        });
+        this.setState({ photoSlideIndex: currentIndex + 1 });
+      }
     };
     return (this.state.isLoading === true) ? <Segment attached='bottom'><Loading /></Segment> :
       <div>

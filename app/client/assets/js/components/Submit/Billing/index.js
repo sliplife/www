@@ -7,6 +7,7 @@ import * as actionCreators from 'actions';
 import {  Button, Form, Input, Message, Segment } from 'semantic-ui-react';
 import { NProgress } from 'components';
 import Script from 'react-load-script';
+import ReactGA from 'react-ga';
 
 const mapStateToProps = (state) => ({
   listings: state.listings,
@@ -59,7 +60,15 @@ export default class SubmitBilling extends React.Component {
     if (!this.props.steps.listing.completed) {
       return this.props.dispatch(replace('/submit/listing'));
     }
-    if (this.props.steps.billing.completed || this.props.listings.listing.active) {
+    if (this.props.steps.billing.completed) {
+      return this.props.dispatch(replace('/submit/confirmation'));
+    }
+    if (this.props.listings.listing.active) {
+      ReactGA.event({
+        category: 'Listings',
+        action: 'Redeem Free Credit Success',
+        label: 'Onsite'
+      });
       this.props.setCompletedStep('billing');
       return this.props.dispatch(replace('/submit/confirmation'));
     }

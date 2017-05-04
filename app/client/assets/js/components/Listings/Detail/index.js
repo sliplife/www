@@ -3,7 +3,7 @@ import chunk from 'lodash/chunk';
 import React, { PropTypes } from 'react';
 import { FormattedNumber } from 'react-intl';
 import { connect } from 'react-redux';
-import { Link, browserHistory } from 'react-router';
+import { Link } from 'react-router';
 import { bindActionCreators } from 'redux';
 import { Button, Divider, Grid, Icon, Item, Image, Label, Segment, Table } from 'semantic-ui-react';
 import { CircleMarker, Map, Popup, TileLayer } from 'react-leaflet';
@@ -362,9 +362,6 @@ export default class ListingsDetail extends React.Component {
               })}
             </Slider>
           </Segment>
-        </Segment>
-        <Segment>
-          <Button onClick={browserHistory.goBack} content='Back' icon='left arrow' labelPosition='left' fluid />
         </Segment>
       </div>;
   }

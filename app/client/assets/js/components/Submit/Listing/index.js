@@ -211,7 +211,67 @@ export default class SubmitListing extends React.Component {
   }
   render() {
 
-    const stateOptions = [{ key: 'fl', value: 'Florida', text: 'Florida' }];
+    const stateOptions = [
+      { key: 'AL', value: 'Alabama', text: 'Alabama' },
+      { key: 'AK', value: 'Alaska', text: 'Alaska' },
+      { key: 'AS', value: 'American Samoa', text: 'American Samoa' },
+      { key: 'AZ', value: 'Arizona', text: 'Arizona' },
+      { key: 'AR', value: 'Arkansas', text: 'Arkansas' },
+      { key: 'CA', value: 'California', text: 'California' },
+      { key: 'CO', value: 'Colorado', text: 'Colorado' },
+      { key: 'CT', value: 'Connecticut', text: 'Connecticut' },
+      { key: 'DE', value: 'Delaware', text: 'Delaware' },
+      { key: 'DC', value: 'District Of Columbia', text: 'District Of Columbia' },
+      { key: 'FM', value: 'Federated States Of Micronesia', text: 'Federated States Of Micronesia' },
+      { key: 'FL', value: 'Florida', text: 'Florida' },
+      { key: 'GA', value: 'Georgia', text: 'Georgia' },
+      { key: 'GU', value: 'Guam', text: 'Guam' },
+      { key: 'HI', value: 'Hawaii', text: 'Hawaii' },
+      { key: 'ID', value: 'Idaho', text: 'Idaho' },
+      { key: 'IL', value: 'Illinois', text: 'Illinois' },
+      { key: 'IN', value: 'Indiana', text: 'Indiana' },
+      { key: 'IA', value: 'Iowa', text: 'Iowa' },
+      { key: 'KS', value: 'Kansas', text: 'Kansas' },
+      { key: 'KY', value: 'Kentucky', text: 'Kentucky' },
+      { key: 'LA', value: 'Louisiana', text: 'Louisiana' },
+      { key: 'ME', value: 'Maine', text: 'Maine' },
+      { key: 'MH', value: 'Marshall Islands', text: 'Marshall Islands' },
+      { key: 'MD', value: 'Maryland', text: 'Maryland' },
+      { key: 'MA', value: 'Massachusetts', text: 'Massachusetts' },
+      { key: 'MI', value: 'Michigan', text: 'Michigan' },
+      { key: 'MN', value: 'Minnesota', text: 'Minnesota' },
+      { key: 'MS', value: 'Mississippi', text: 'Mississippi' },
+      { key: 'MO', value: 'Missouri', text: 'Missouri' },
+      { key: 'MT', value: 'Montana', text: 'Montana' },
+      { key: 'NE', value: 'Nebraska', text: 'Nebraska' },
+      { key: 'NV', value: 'Nevada', text: 'Nevada' },
+      { key: 'NH', value: 'New Hampshire', text: 'New Hampshire' },
+      { key: 'NJ', value: 'New Jersey', text: 'New Jersey' },
+      { key: 'NM', value: 'New Mexico', text: 'New Mexico' },
+      { key: 'NY', value: 'New York', text: 'New York' },
+      { key: 'NC', value: 'North Carolina', text: 'North Carolina' },
+      { key: 'ND', value: 'North Dakota', text: 'North Dakota' },
+      { key: 'MP', value: 'Northern Mariana Islands', text: 'Northern Mariana Islands' },
+      { key: 'OH', value: 'Ohio', text: 'Ohio' },
+      { key: 'OK', value: 'Oklahoma', text: 'Oklahoma' },
+      { key: 'OR', value: 'Oregon', text: 'Oregon' },
+      { key: 'PW', value: 'Palau', text: 'Palau' },
+      { key: 'PA', value: 'Pennsylvania', text: 'Pennsylvania' },
+      { key: 'PR', value: 'Puerto Rico', text: 'Puerto Rico' },
+      { key: 'RI', value: 'Rhode Island', text: 'Rhode Island' },
+      { key: 'SC', value: 'South Carolina', text: 'South Carolina' },
+      { key: 'SD', value: 'South Dakota', text: 'South Dakota' },
+      { key: 'TN', value: 'Tennessee', text: 'Tennessee' },
+      { key: 'TX', value: 'Texas', text: 'Texas' },
+      { key: 'UT', value: 'Utah', text: 'Utah' },
+      { key: 'VT', value: 'Vermont', text: 'Vermont' },
+      { key: 'VI', value: 'Virgin Islands', text: 'Virgin Islands' },
+      { key: 'VA', value: 'Virginia', text: 'Virginia' },
+      { key: 'WA', value: 'Washington', text: 'Washington' },
+      { key: 'WV', value: 'West Virginia', text: 'West Virginia' },
+      { key: 'WI', value: 'Wisconsin', text: 'Wisconsin' },
+      { key: 'WY', value: 'Wyomin', text: 'Wyomin' }
+    ];
     const amenityOptions = [
       { key: 'alcohol', value: 'alcohol', text: 'Alcohol' },
       { key: 'anchorage', value: 'anchorage', text: 'Anchorage' },
@@ -532,7 +592,7 @@ export default class SubmitListing extends React.Component {
             <Dropdown fluid search selection multiple
               placeholder='Amenities'
               options={amenityOptions}
-              name="state"
+              name="amenities"
               onChange={this.handleAmenityChange}
               value={this.state.listing.amenities}
             />

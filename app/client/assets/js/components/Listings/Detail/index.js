@@ -264,18 +264,18 @@ export default class ListingsDetail extends React.Component {
               <Table.Header>
                 <Table.Row>
                   <Table.HeaderCell colSpan={2}>
-                    Target Boat Limitations
+                    Max Size Limitations
                   </Table.HeaderCell>
                 </Table.Row>
               </Table.Header>
               <Table.Body>
                 <Table.Row>
-                  <Table.Cell>Max Length {this.props.listing.length}ft</Table.Cell>
-                  <Table.Cell>Max Beam {this.props.listing.beam}ft</Table.Cell>
+                  <Table.Cell>Length {this.props.listing.length}ft</Table.Cell>
+                  <Table.Cell>Beam {this.props.listing.beam}ft</Table.Cell>
                 </Table.Row>
                 <Table.Row>
-                  <Table.Cell>Max Draw {this.props.listing.draw}ft</Table.Cell>
-                  <Table.Cell>Max Clearance {this.props.listing.clearance}ft</Table.Cell>
+                  <Table.Cell>Draw {this.props.listing.draw}ft</Table.Cell>
+                  <Table.Cell>Clearance {this.props.listing.clearance}ft</Table.Cell>
                 </Table.Row>
               </Table.Body>
             </Table>

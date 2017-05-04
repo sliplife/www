@@ -475,6 +475,54 @@ export default class SubmitListing extends React.Component {
           </Form.Group>
           <Divider horizontal>
             <Icon circular
+              name='maximize'
+              color='blue'
+            />
+          </Divider>
+          <Form.Group>
+            <Form.Field error={this.hasValidationError('length')} width={4}>
+              <label>Max Length</label>
+              <Input
+                name="length"
+                onChange={this.handleChange}
+                placeholder='Max Length'
+                type="text"
+                value={this.state.listing.length}
+              />
+            </Form.Field>
+            <Form.Field error={this.hasValidationError('beam')} width={4}>
+              <label>Max Beam</label>
+              <Input
+                name="beam"
+                onChange={this.handleChange}
+                placeholder='Max Beam'
+                type="text"
+                value={this.state.listing.beam}
+              />
+            </Form.Field>
+            <Form.Field error={this.hasValidationError('draw')} width={4}>
+              <label>Max Draw</label>
+              <Input
+                name="draw"
+                onChange={this.handleChange}
+                placeholder='Max Draw'
+                type="text"
+                value={this.state.listing.draw}
+              />
+            </Form.Field>
+            <Form.Field error={this.hasValidationError('clearance')} width={4}>
+              <label>Max Clearance</label>
+              <Input
+                name="clearance"
+                onChange={this.handleChange}
+                placeholder='Max Clearance'
+                type="text"
+                value={this.state.listing.clearance}
+              />
+            </Form.Field>
+          </Form.Group>
+          <Divider horizontal>
+            <Icon circular
               name='list'
               color='blue'
             />

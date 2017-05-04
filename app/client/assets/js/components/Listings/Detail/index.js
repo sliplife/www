@@ -275,7 +275,7 @@ export default class ListingsDetail extends React.Component {
                 </Table.Row>
                 <Table.Row>
                   <Table.Cell disabled>Max Draw {this.props.listing.draw}ft</Table.Cell>
-                  <Table.Cell disabled>Max Clearance {this.props.listing.clearance}ft</Table.Cell>
+                  <Table.Cell disabled>Max Clearance {!this.props.listing.clearance ? 'Unlimited' : `${this.props.listing.clearance}ft` }</Table.Cell>
                 </Table.Row>
               </Table.Body>
             </Table>

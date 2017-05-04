@@ -270,12 +270,12 @@ export default class ListingsDetail extends React.Component {
               </Table.Header>
               <Table.Body>
                 <Table.Row>
-                  <Table.Cell>Max Length {this.props.listing.length}ft</Table.Cell>
-                  <Table.Cell>Max Beam {this.props.listing.beam}ft</Table.Cell>
+                  <Table.Cell disabled>Max Length {this.props.listing.length}ft</Table.Cell>
+                  <Table.Cell disabled>Max Beam {this.props.listing.beam}ft</Table.Cell>
                 </Table.Row>
                 <Table.Row>
-                  <Table.Cell>Max Draw {this.props.listing.draw}ft</Table.Cell>
-                  <Table.Cell>Max Clearance {this.props.listing.clearance}ft</Table.Cell>
+                  <Table.Cell disabled>Max Draw {this.props.listing.draw}ft</Table.Cell>
+                  <Table.Cell disabled>Max Clearance {this.props.listing.clearance}ft</Table.Cell>
                 </Table.Row>
               </Table.Body>
             </Table>

@@ -135,8 +135,6 @@ export default class Submit extends React.Component {
                 </h2>
                 <p>Sign up or login to submit new listing.</p>
               </div>
-            </Segment>
-            <Segment>
               <Button fluid primary
                 as={Link}
                 to='/signup'
@@ -146,6 +144,9 @@ export default class Submit extends React.Component {
                 content='Get Started'
               />
             </Segment>
+            <Message style={{ textAlign: 'center' }}>
+              Your first listing is free!
+            </Message>
           </div>
         }
       </div>

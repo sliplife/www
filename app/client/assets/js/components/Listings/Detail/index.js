@@ -260,22 +260,22 @@ export default class ListingsDetail extends React.Component {
             />
           </Divider>
           <Segment>
-            <Table columns={2} className='center aligned' size='small' color='blue' striped celled unstackable>
+            <Table columns={2} className='center aligned' size='small' color='blue' striped celled>
               <Table.Header>
                 <Table.Row>
                   <Table.HeaderCell colSpan={2}>
-                    Max Size Limitations
+                    Target Boat Limitations
                   </Table.HeaderCell>
                 </Table.Row>
               </Table.Header>
               <Table.Body>
                 <Table.Row>
-                  <Table.Cell>Length {this.props.listing.length}ft</Table.Cell>
-                  <Table.Cell>Beam {this.props.listing.beam}ft</Table.Cell>
+                  <Table.Cell>Max Length {this.props.listing.length}ft</Table.Cell>
+                  <Table.Cell>Max Beam {this.props.listing.beam}ft</Table.Cell>
                 </Table.Row>
                 <Table.Row>
-                  <Table.Cell>Draw {this.props.listing.draw}ft</Table.Cell>
-                  <Table.Cell>Clearance {this.props.listing.clearance}ft</Table.Cell>
+                  <Table.Cell>Max Draw {this.props.listing.draw}ft</Table.Cell>
+                  <Table.Cell>Max Clearance {this.props.listing.clearance}ft</Table.Cell>
                 </Table.Row>
               </Table.Body>
             </Table>

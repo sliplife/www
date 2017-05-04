@@ -475,7 +475,7 @@ export default class SubmitListing extends React.Component {
           </Form.Group>
           <Divider horizontal>
             <Icon circular
-              name='maximize'
+              name='anchor'
               color='blue'
             />
           </Divider>

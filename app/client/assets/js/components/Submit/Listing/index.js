@@ -305,7 +305,7 @@ export default class SubmitListing extends React.Component {
             }}
           />
           <Form.Group>
-            <Form.Field error={this.hasValidationError('location')} width='4'>
+            <Form.Field error={this.hasValidationError('location')} width='3'>
               <label>Location</label>
               <Dropdown fluid search selection
                 placeholder='Location'
@@ -325,17 +325,17 @@ export default class SubmitListing extends React.Component {
                 value={this.state.listing.type}
               />
             </Form.Field>
-            <Form.Field error={this.hasValidationError('terms')} width='4'>
-              <label>Payment Terms</label>
+            <Form.Field error={this.hasValidationError('terms')} width='3'>
+              <label>Terms</label>
               <Dropdown fluid search selection
-                placeholder='Payment Terms'
+                placeholder='Terms'
                 options={paymentTermsOptions}
                 name="terms"
                 onChange={this.handlePaymentTermsChange}
                 value={this.state.listing.terms}
               />
             </Form.Field>
-            <Form.Field error={this.hasValidationError('price')} width='4'>
+            <Form.Field error={this.hasValidationError('price')} width='6'>
               <label>Price</label>
                 <Input
                   label={<Dropdown
@@ -382,7 +382,7 @@ export default class SubmitListing extends React.Component {
                 value={this.state.listing.city}
               />
             </Form.Field>
-            <Form.Field error={this.hasValidationError('state')} width='7'>
+            <Form.Field error={this.hasValidationError('state')} width='6'>
               <label>State</label>
               <Dropdown fluid search selection
                 placeholder='State'
@@ -392,7 +392,7 @@ export default class SubmitListing extends React.Component {
                 value={this.state.listing.state}
               />
             </Form.Field>
-            <Form.Field error={this.hasValidationError('zip')} width='3'>
+            <Form.Field error={this.hasValidationError('zip')} width='4'>
               <label>ZIP Code</label>
               <Input
                 name="zip"
@@ -419,8 +419,18 @@ export default class SubmitListing extends React.Component {
               color='blue'
             />
           </Divider>
-          <Form.Group widths='equal'>
-            <Form.Field error={this.hasValidationError('phone')}>
+          <Form.Group>
+            <Form.Field error={this.hasValidationError('name')} width={8}>
+              <label>Name</label>
+              <Input
+                name="name"
+                onChange={this.handleChange}
+                placeholder='Name'
+                type="text"
+                value={this.state.listing.name}
+              />
+            </Form.Field>
+            <Form.Field error={this.hasValidationError('phone')}  width={5}>
               <label>Phone</label>
               <Input
                 name="phone"
@@ -430,6 +440,18 @@ export default class SubmitListing extends React.Component {
                 value={this.state.listing.phone}
               />
             </Form.Field>
+            <Form.Field error={this.hasValidationError('vhfChannel')} width={3}>
+              <label>VHF Channel</label>
+              <Input
+                name="vhfChannel"
+                onChange={this.handleChange}
+                placeholder='VHF Channel'
+                type="text"
+                value={this.state.listing.vhfChannel}
+              />
+            </Form.Field>
+          </Form.Group>
+          <Form.Group widths='equal'>
             <Form.Field error={this.hasValidationError('email')}>
               <label>Email</label>
               <Input
@@ -440,14 +462,14 @@ export default class SubmitListing extends React.Component {
                 value={this.state.listing.email}
               />
             </Form.Field>
-            <Form.Field error={this.hasValidationError('vhfChannel')}>
-              <label>VHF Channel</label>
+            <Form.Field error={this.hasValidationError('website')}>
+              <label>Website</label>
               <Input
-                name="vhfChannel"
+                name="website"
                 onChange={this.handleChange}
-                placeholder='VHF Channel'
+                placeholder='Website URL'
                 type="text"
-                value={this.state.listing.vhfChannel}
+                value={this.state.listing.website}
               />
             </Form.Field>
           </Form.Group>

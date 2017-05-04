@@ -273,6 +273,7 @@ export default class SubmitListing extends React.Component {
       { key: 'WY', value: 'Wyomin', text: 'Wyomin' }
     ];
     const amenityOptions = [
+      { key: 'accessibility', value: 'accessibility', text: '24 Hour Accessibility' },
       { key: 'alcohol', value: 'alcohol', text: 'Alcohol' },
       { key: 'anchorage', value: 'anchorage', text: 'Anchorage' },
       { key: 'bait_tackle', value: 'bait_tackle', text: 'Bait & Tackle' },

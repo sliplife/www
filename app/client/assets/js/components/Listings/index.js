@@ -196,7 +196,7 @@ export default class Home extends React.Component {
                       icon='search'
                       iconPosition='left'
                       name="query"
-                      placeholder='Search dock amenities, description, etc.'
+                      placeholder='Search dock descriptions'
                       type="text"
                       value={this.state.filter.query}
                       loading={this.state.isSearching}

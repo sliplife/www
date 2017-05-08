@@ -3,7 +3,7 @@ import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { push } from 'react-router-redux';
 import { Link } from 'react-router';
-import { Button, Form, Input, Message, Segment } from 'semantic-ui-react';
+import { Button, Form, Grid, Input, Message, Segment } from 'semantic-ui-react';
 import { bindActionCreators } from 'redux';
 import * as actionCreators from 'actions';
 import { NProgress } from 'components';
@@ -173,14 +173,18 @@ export default class Recovery extends React.Component {
   render() {
 
     return (
-      <div>
-        <Form autoComplete='off'>
-          {this.renderSteps()}
-        </Form>
-        <Message style={{ textAlign: 'center' }}>
-          Already know your password? <Link to='/login'>Log In</Link>
-        </Message>
-      </div>
+      <Grid>
+        <Grid.Column width='4' only='computer' />
+        <Grid.Column width='16' computer='8'>
+          <Form autoComplete='off'>
+            {this.renderSteps()}
+          </Form>
+          <Message style={{ textAlign: 'center' }}>
+            Already know your password? <Link to='/login'>Log In</Link>
+          </Message>
+        </Grid.Column>
+        <Grid.Column width='4' only='computer' />
+      </Grid>
     );
   }
 

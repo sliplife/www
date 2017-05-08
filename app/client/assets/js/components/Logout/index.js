@@ -2,7 +2,7 @@ import React, { PropTypes } from 'react';
 import { push } from 'react-router-redux';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { Icon, Message, Segment } from 'semantic-ui-react';
+import { Grid, Icon, Message, Segment } from 'semantic-ui-react';
 import * as actionCreators from 'actions';
 const mapStateToProps = () => ({});
 
@@ -32,17 +32,23 @@ export default class Logout extends React.Component {
   render() {
 
     return (
-      <Segment attached='bottom'>
-        <Message icon>
-          <Icon name='circle notched' loading />
-          <Message.Content>
-            <Message.Header>
-              Signing you out
-            </Message.Header>
-            Your session is being destroyed.
-          </Message.Content>
-        </Message>
-      </Segment>
+      <Grid>
+        <Grid.Column width='4' only='computer' />
+        <Grid.Column width='16' computer='8'>
+          <Segment attached='bottom'>
+            <Message icon>
+              <Icon name='circle notched' loading />
+              <Message.Content>
+                <Message.Header>
+                  Signing you out
+                </Message.Header>
+                Your session is being destroyed.
+              </Message.Content>
+            </Message>
+          </Segment>
+        </Grid.Column>
+        <Grid.Column width='4' only='computer' />
+      </Grid>
     );
   }
 }

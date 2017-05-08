@@ -3,7 +3,7 @@ import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { push } from 'react-router-redux';
 import { bindActionCreators } from 'redux';
-import { Button, Form, Icon, Input, Message, Segment } from 'semantic-ui-react';
+import { Button, Form, Grid, Icon, Input, Message, Segment } from 'semantic-ui-react';
 import * as actionCreators from 'actions';
 import { Link, NProgress } from 'components';
 
@@ -75,49 +75,53 @@ export default class Login extends React.Component {
   render() {
 
     return (
-      <div>
-        <Segment stacked attached='bottom'>
-          <Form autoComplete='off'>
-            <Form.Field error={this.hasValidationError('email')}>
-              <label>Email</label>
-              <Input
-                icon='mail'
-                iconPosition='left'
-                name="email"
-                onChange={this.handleChange}
-                placeholder='Email'
-                type="text"
-                value={this.state.email}
+      <Grid>
+        <Grid.Column width='4' only='computer' />
+        <Grid.Column width='16' computer='8'>
+          <Segment stacked attached='bottom'>
+            <Form autoComplete='off'>
+              <Form.Field error={this.hasValidationError('email')}>
+                <label>Email</label>
+                <Input
+                  icon='mail'
+                  iconPosition='left'
+                  name="email"
+                  onChange={this.handleChange}
+                  placeholder='Email'
+                  type="text"
+                  value={this.state.email}
+                />
+              </Form.Field>
+              <Form.Field error={this.hasValidationError('password')}>
+                <label>Password</label>
+                <Input
+                  className="left icon"
+                  icon='lock'
+                  label={<Link to="/recovery" className="ui tag label">
+                    <Icon name="help circle" style={{ marginRight: 0 }} />
+                  </Link>}
+                  labelPosition='right'
+                  name="password"
+                  onChange={this.handleChange}
+                  placeholder="Password"
+                  type="password"
+                  value={this.state.password}
+                />
+              </Form.Field>
+              <Button fluid primary
+                disabled={this.state.isLoading}
+                loading={this.state.isLoading}
+                onClick={this.handleLogin}
+                content='Login'
               />
-            </Form.Field>
-            <Form.Field error={this.hasValidationError('password')}>
-              <label>Password</label>
-              <Input
-                className="left icon"
-                icon='lock'
-                label={<Link to="/recovery" className="ui tag label">
-                  <Icon name="help circle" style={{ marginRight: 0 }} />
-                </Link>}
-                labelPosition='right'
-                name="password"
-                onChange={this.handleChange}
-                placeholder="Password"
-                type="password"
-                value={this.state.password}
-              />
-            </Form.Field>
-            <Button fluid primary
-              disabled={this.state.isLoading}
-              loading={this.state.isLoading}
-              onClick={this.handleLogin}
-              content='Login'
-            />
-          </Form>
-        </Segment>
-        <Message style={{ textAlign: 'center' }}>
-          New to us? <Link to='/signup'>Sign Up</Link>
-        </Message>
-      </div>
+            </Form>
+          </Segment>
+          <Message style={{ textAlign: 'center' }}>
+            New to us? <Link to='/signup'>Sign Up</Link>
+          </Message>
+        </Grid.Column>
+        <Grid.Column width='4' only='computer' />
+      </Grid>
     );
   }
 

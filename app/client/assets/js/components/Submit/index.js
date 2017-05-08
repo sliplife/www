@@ -5,7 +5,7 @@ import { Link } from 'react-router';
 import { push, replace } from 'react-router-redux';
 import { bindActionCreators } from 'redux';
 import * as actionCreators from 'actions';
-import { Button, Message, Segment, Step } from 'semantic-ui-react';
+import { Button, Grid, Message, Segment, Step } from 'semantic-ui-react';
 import { NProgress } from 'components';
 
 const mapStateToProps = (state) => ({
@@ -122,32 +122,50 @@ export default class Submit extends React.Component {
     return (
       <div>
         {!this.props.children ? null :
-          <Segment attached='bottom'>
-            <Step.Group fluid size='mini' items={toArray(this.state.steps)} />
-          </Segment>
+          <Grid>
+            <Grid.Column width='2' only='computer' />
+            <Grid.Column width='16' computer='12'>
+              <Segment attached='bottom'>
+                <Step.Group fluid size='mini' items={toArray(this.state.steps)} />
+              </Segment>
+            </Grid.Column>
+            <Grid.Column width='2' only='computer' />
+          </Grid>
         }
-        {this.props.children ? React.cloneElement(this.props.children, { steps: this.state.steps, setActiveStep: this.setActiveStep, setCompletedStep: this.setCompletedStep, resetCompletedSteps: this.resetCompletedSteps, ...this.props }) :
-          <div>
-            <Segment attached='bottom'>
-              <div className="ui vertical center aligned very padded segment">
-                <h2 className="ui center aligned icon header">
-                  <i className={'circular anchor icon'} /> Submit
-                </h2>
-                <p>Sign up or login to submit new listing.</p>
-              </div>
-              <Button fluid primary
-                as={Link}
-                to='/signup'
-                disabled={this.state.isLoading}
-                loading={this.state.isLoading}
-                onClick={this.handleSubmit}
-                content='Get Started'
-              />
-            </Segment>
-            <Message style={{ textAlign: 'center' }}>
-              Your first listing is free!
-            </Message>
-          </div>
+        {this.props.children ?
+          <Grid>
+            <Grid.Column width='2' only='computer' />
+            <Grid.Column width='16' computer='12'>
+              {React.cloneElement(this.props.children, { steps: this.state.steps, setActiveStep: this.setActiveStep, setCompletedStep: this.setCompletedStep, resetCompletedSteps: this.resetCompletedSteps, ...this.props })}
+            </Grid.Column>
+            <Grid.Column width='2' only='computer' />
+          </Grid>
+          :
+          <Grid>
+            <Grid.Column width='4' only='computer' />
+            <Grid.Column width='16' computer='8'>
+              <Segment attached='bottom'>
+                <div className="ui vertical center aligned very padded segment">
+                  <h2 className="ui center aligned icon header">
+                    <i className={'circular anchor icon'} /> Submit
+                  </h2>
+                  <p>Sign up or login to submit new listing.</p>
+                </div>
+                <Button fluid primary
+                  as={Link}
+                  to='/signup'
+                  disabled={this.state.isLoading}
+                  loading={this.state.isLoading}
+                  onClick={this.handleSubmit}
+                  content='Get Started'
+                />
+              </Segment>
+              <Message style={{ textAlign: 'center' }}>
+                Your first listing is free!
+              </Message>
+            </Grid.Column>
+            <Grid.Column width='4' only='computer' />
+          </Grid>
         }
       </div>
     );

@@ -60,7 +60,7 @@ export default class Home extends React.Component {
   componentDidMount() {
 
     NProgress.done();
-    const { limit, page } = this.state;
+    const { limit, page } = this.state.filter;
     this.scroller = document.body;
     this.props.actions.listings.browse({ limit, page, with: 'uploads' })
       .then(() => this.setState({ isLoading: false }, this.bindWindowScroll));

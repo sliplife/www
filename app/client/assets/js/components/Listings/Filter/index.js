@@ -1,11 +1,28 @@
+import without from 'lodash/without';
 import React, { PropTypes } from 'react';
-import { Divider, Dropdown, Header, Icon, Input, List } from 'semantic-ui-react';
+import { Accordion, Divider, Dropdown, Header, Icon, Input, List } from 'semantic-ui-react';
 
 export default class ListingsFilter extends React.Component {
   static propTypes = {
     filter: PropTypes.object.isRequired,
     handleSearchFilter: PropTypes.func.isRequired
   };
+  constructor(props) {
+
+    super(props);
+    this.state = {
+      expandedPanels: []
+    };
+  }
+  handleSectionToggle(index) {
+
+    const expandedPanels = this.state.expandedPanels;
+    if (expandedPanels.includes(index)) {
+      return this.setState({ expandedPanels: without(expandedPanels, index) });
+    }
+    expandedPanels.push(index);
+    this.setState({ expandedPanels });
+  }
   render() {
 
     const stateOptions = [
@@ -71,69 +88,81 @@ export default class ListingsFilter extends React.Component {
     ];
 
     return (
-      <div>
-        <Header style={{ cursor: 'pointer' }}>
-          <Icon name='minus' style={{ float: 'right', fontSize: '1em' }} />
-          Location
-        </Header>
-        <Header sub as='h5'>State</Header>
-        <Dropdown fluid search selection
-          className='mini'
-          options={stateOptions}
-          onChange={(event, data) => this.props.handleSearchFilter({ state: data.value })}
-          value={this.props.filter.state}
-        />
-        <Header sub as='h5'>City</Header>
-        <Input fluid size='mini' icon='marker' onChange={(event) => this.props.handleSearchFilter({ city: event.target.value })} value={this.props.filter.city} />
+      <Accordion exclusive={false}>
+        <Accordion.Title onClick={(event, index) => this.handleSectionToggle(index)}>
+          <Header style={{ cursor: 'pointer' }}>
+            <Icon name={this.state.expandedPanels.includes(0) ? 'minus' : 'add'} style={{ float: 'right', fontSize: '1em' }} />
+            Location
+          </Header>
+        </Accordion.Title>
+        <Accordion.Content>
+          <Header sub as='h5'>State</Header>
+          <Dropdown fluid search selection
+            className='mini'
+            options={stateOptions}
+            onChange={(event, data) => this.props.handleSearchFilter({ state: data.value })}
+            value={this.props.filter.state}
+          />
+          <Header sub as='h5'>City</Header>
+          <Input fluid size='mini' icon='marker' onChange={(event) => this.props.handleSearchFilter({ city: event.target.value })} value={this.props.filter.city} />
+        </Accordion.Content>
         <Divider/>
-        <Header style={{ cursor: 'pointer' }}>
-          <Icon name='minus' style={{ float: 'right', fontSize: '1em' }} />
-          Dockage
-        </Header>
-        <Header sub as='h5'>Property</Header>
-        <List selection>
-          <List.Item onClick={() => this.props.handleSearchFilter({ location: 'condo' })} active={this.props.filter.location === 'condo'}>
-            <List.Content>Condo</List.Content>
-          </List.Item>
-          <List.Item onClick={() => this.props.handleSearchFilter({ location: 'home' })} active={this.props.filter.location === 'home'}>
-            <List.Content>Home</List.Content>
-          </List.Item>
-          <List.Item onClick={() => this.props.handleSearchFilter({ location: 'marina' })} active={this.props.filter.location === 'marina'}>
-            <List.Content>Marina</List.Content>
-          </List.Item>
-          <List.Item onClick={() => this.props.handleSearchFilter({ location: 'vacant_lot' })} active={this.props.filter.location === 'vacant_lot'}>
-            <List.Content>Vacant Lot</List.Content>
-          </List.Item>
-        </List>
-        <Header sub as='h5'>Type</Header>
-        <List selection>
-          <List.Item onClick={() => this.props.handleSearchFilter({ type: 'dock' })} active={this.props.filter.type === 'dock'}>
-            <List.Content>Dock</List.Content>
-          </List.Item>
-          <List.Item onClick={() => this.props.handleSearchFilter({ type: 'dry_storage' })} active={this.props.filter.type === 'dry_storage'}>
-            <List.Content>Dry Storage</List.Content>
-          </List.Item>
-          <List.Item onClick={() => this.props.handleSearchFilter({ type: 'mooring' })} active={this.props.filter.type === 'moring'}>
-            <List.Content>Mooring Buoy</List.Content>
-          </List.Item>
-          <List.Item onClick={() => this.props.handleSearchFilter({ type: 'slip' })} active={this.props.filter.type === 'slip'}>
-            <List.Content>Slip</List.Content>
-          </List.Item>
-        </List>
+        <Accordion.Title onClick={(event, index) => this.handleSectionToggle(index)}>
+          <Header style={{ cursor: 'pointer' }}>
+            <Icon name={this.state.expandedPanels.includes(1) ? 'minus' : 'add'} style={{ float: 'right', fontSize: '1em' }} />
+            Dockage
+          </Header>
+        </Accordion.Title>
+        <Accordion.Content>
+          <Header sub as='h5'>Property</Header>
+          <List selection>
+            <List.Item onClick={() => this.props.handleSearchFilter({ location: 'condo' })} active={this.props.filter.location === 'condo'}>
+              <List.Content>Condo</List.Content>
+            </List.Item>
+            <List.Item onClick={() => this.props.handleSearchFilter({ location: 'home' })} active={this.props.filter.location === 'home'}>
+              <List.Content>Home</List.Content>
+            </List.Item>
+            <List.Item onClick={() => this.props.handleSearchFilter({ location: 'marina' })} active={this.props.filter.location === 'marina'}>
+              <List.Content>Marina</List.Content>
+            </List.Item>
+            <List.Item onClick={() => this.props.handleSearchFilter({ location: 'vacant_lot' })} active={this.props.filter.location === 'vacant_lot'}>
+              <List.Content>Vacant Lot</List.Content>
+            </List.Item>
+          </List>
+          <Header sub as='h5'>Type</Header>
+          <List selection>
+            <List.Item onClick={() => this.props.handleSearchFilter({ type: 'dock' })} active={this.props.filter.type === 'dock'}>
+              <List.Content>Dock</List.Content>
+            </List.Item>
+            <List.Item onClick={() => this.props.handleSearchFilter({ type: 'dry_storage' })} active={this.props.filter.type === 'dry_storage'}>
+              <List.Content>Dry Storage</List.Content>
+            </List.Item>
+            <List.Item onClick={() => this.props.handleSearchFilter({ type: 'mooring' })} active={this.props.filter.type === 'moring'}>
+              <List.Content>Mooring Buoy</List.Content>
+            </List.Item>
+            <List.Item onClick={() => this.props.handleSearchFilter({ type: 'slip' })} active={this.props.filter.type === 'slip'}>
+              <List.Content>Slip</List.Content>
+            </List.Item>
+          </List>
+        </Accordion.Content>
         <Divider/>
-        <Header style={{ cursor: 'pointer' }}>
-          <Icon name='minus' style={{ float: 'right', fontSize: '1em' }} />
-          Price
-        </Header>
-        <List selection>
-          <List.Item onClick={() => this.props.handleSearchFilter({ terms: 'rent' })} active={this.props.filter.terms === 'rent'}>
-            <List.Content>For Rent</List.Content>
-          </List.Item>
-          <List.Item onClick={() => this.props.handleSearchFilter({ terms: 'sale' })} active={this.props.filter.terms === 'sale'}>
-            <List.Content>For Sale</List.Content>
-          </List.Item>
-        </List>
-      </div>
+        <Accordion.Title onClick={(event, index) => this.handleSectionToggle(index)}>
+          <Header style={{ cursor: 'pointer' }}>
+            <Icon name={this.state.expandedPanels.includes(2) ? 'minus' : 'add'} style={{ float: 'right', fontSize: '1em' }} />
+            Price
+          </Header>
+        </Accordion.Title>
+        <Accordion.Content>
+          <List selection>
+            <List.Item onClick={() => this.props.handleSearchFilter({ terms: 'rent' })} active={this.props.filter.terms === 'rent'}>
+              <List.Content>For Rent</List.Content>
+            </List.Item>
+            <List.Item onClick={() => this.props.handleSearchFilter({ terms: 'sale' })} active={this.props.filter.terms === 'sale'}>
+              <List.Content>For Sale</List.Content>
+            </List.Item>
+          </List>
+        </Accordion.Content>
+      </Accordion>
     );
   }
 }

@@ -98,7 +98,7 @@ export default class Home extends React.Component {
       NProgress.start();
       this.setState({ isPaging: true }, () => {
 
-        this.props.actions.listings.browse({ ...this.state.filter, query, page: nextPage, with: 'uploads' })
+        this.props.actions.listings.browse({ ...this.state.filter, page: nextPage, with: 'uploads' })
           .then(() => this.setState({ isPaging: false }, NProgress.done()));
       });
     }

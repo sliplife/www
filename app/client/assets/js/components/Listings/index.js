@@ -212,7 +212,7 @@ export default class Home extends React.Component {
                   <Segment>
                     {(!this.state.filter.state) ? '' : <Label icon='remove' content={capitalize(this.state.filter.state)} as={Link} onClick={() => this.handleSearchFilter({ state: '' })} />}
                     {(!this.state.filter.city) ? '' : <Label icon='remove' content={this.state.filter.city.split(' ').map(capitalize).join(' ')} as={Link} onClick={() => this.handleSearchFilter({ city: '' })} />}
-                    {(!this.state.filter.location) ? '' : <Label icon='remove' content={capitalize(this.state.filter.location)} as={Link} onClick={() => this.handleSearchFilter({ location: '' })} />}
+                    {(!this.state.filter.location) ? '' : <Label icon='remove' content={this.state.filter.location.split('_').map(capitalize).join(' ')} as={Link} onClick={() => this.handleSearchFilter({ location: '' })} />}
                     {(!this.state.filter.type) ? '' : <Label icon='remove' content={this.state.filter.type.split('_').map(capitalize).join(' ')} as={Link} onClick={() => this.handleSearchFilter({ type: '' })} />}
                     {(!this.state.filter.terms) ? '' : <Label icon='remove' content={`For ${capitalize(this.state.filter.terms)}`} as={Link} onClick={() => this.handleSearchFilter({ terms: '' })} />}
                     {/*<Label content='Create Alert' color='orange' icon='announcement' as={Link} />*/}

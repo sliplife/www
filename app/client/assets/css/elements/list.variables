@@ -1,0 +1,8 @@
+/*******************************
+         List
+*******************************/
+
+@selectionListColor: rgba(222, 222, 222, .5);
+@selectionListActiveColor: rgba(255, 255, 255, .15);
+@selectionListHoverColor: #F9E4B2;
+@selectionListActiveBackground: rgba(0,0,0,.16);

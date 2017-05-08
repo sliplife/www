@@ -24,7 +24,7 @@ export default class LayoutAuthenticated extends React.Component {
     return (
       <div>
         <Menu />
-          <Grid centered verticalAlign='middle' className='page'>
+          <Grid centered verticalAlign='middle'>
             <Grid.Row styleName='row'>
               <Grid.Column width={16} className='content' styleName='content'>
                 {this.props.children}

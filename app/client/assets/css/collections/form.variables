@@ -2,4 +2,5 @@
          Site Settings
 *******************************/
 
-@labelColor: rgba(255, 255, 255, .85);
+@labelColor: rgba(255, 255, 255, .75);
+@inputFocusColor: #F9E4B2;

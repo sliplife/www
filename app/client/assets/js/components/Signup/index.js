@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { push } from 'react-router-redux';
 import { Link } from 'react-router';
 import { bindActionCreators } from 'redux';
-import { Button, Form, Input, Message, Segment } from 'semantic-ui-react';
+import { Button, Form, Grid, Input, Message, Segment } from 'semantic-ui-react';
 import * as actionCreators from 'actions';
 import { auth } from 'actions';
 import { NProgress } from 'components';
@@ -78,57 +78,61 @@ export default class Signup extends React.Component {
   render() {
 
     return (
-      <div>
-        <Segment stacked attached='bottom'>
-        <Form autoComplete='off'>
-            <Form.Group widths='equal'>
-              <Form.Field error={this.hasValidationError('email')}>
-                <label>Email</label>
+      <Grid>
+        <Grid.Column width='4' only='computer' />
+        <Grid.Column width='16' computer='8'>
+          <Segment stacked attached='bottom'>
+          <Form autoComplete='off'>
+              <Form.Group widths='equal'>
+                <Form.Field error={this.hasValidationError('email')}>
+                  <label>Email</label>
+                  <Input
+                    icon='mail'
+                    iconPosition='left'
+                    name="email"
+                    onChange={this.handleChange}
+                    placeholder='Email address'
+                    type="text"
+                    value={this.state.email}
+                  />
+                </Form.Field>
+                <Form.Field error={this.hasValidationError('verificationEmail')}>
+                  <label>Confirm Email</label>
+                  <Input
+                    name="verificationEmail"
+                    onChange={this.handleChange}
+                    placeholder='Re-enter email address'
+                    type="text"
+                    value={this.state.verificationEmail}
+                  />
+                </Form.Field>
+              </Form.Group>
+              <Form.Field error={this.hasValidationError('password')}>
+                <label>Password</label>
                 <Input
-                  icon='mail'
+                  icon='lock'
                   iconPosition='left'
-                  name="email"
+                  name="password"
                   onChange={this.handleChange}
-                  placeholder='Email address'
-                  type="text"
-                  value={this.state.email}
+                  placeholder='New password'
+                  type="password"
+                  value={this.state.password}
                 />
               </Form.Field>
-              <Form.Field error={this.hasValidationError('verificationEmail')}>
-                <label>Confirm Email</label>
-                <Input
-                  name="verificationEmail"
-                  onChange={this.handleChange}
-                  placeholder='Re-enter email address'
-                  type="text"
-                  value={this.state.verificationEmail}
-                />
-              </Form.Field>
-            </Form.Group>
-            <Form.Field error={this.hasValidationError('password')}>
-              <label>Password</label>
-              <Input
-                icon='lock'
-                iconPosition='left'
-                name="password"
-                onChange={this.handleChange}
-                placeholder='New password'
-                type="password"
-                value={this.state.password}
+              <Button fluid primary
+                loading={this.state.isLoading}
+                disabled={this.state.isLoading}
+                onClick={this.handleSignup}
+                content='Sign Up'
               />
-            </Form.Field>
-            <Button fluid primary
-              loading={this.state.isLoading}
-              disabled={this.state.isLoading}
-              onClick={this.handleSignup}
-              content='Sign Up'
-            />
-          </Form>
-        </Segment>
-        <Message style={{ textAlign: 'center' }}>
-          Already have an account? <Link to='/login'>Log In</Link>
-        </Message>
-      </div>
+            </Form>
+          </Segment>
+          <Message style={{ textAlign: 'center' }}>
+            Already have an account? <Link to='/login'>Log In</Link>
+          </Message>
+        </Grid.Column>
+        <Grid.Column width='4' only='computer' />
+      </Grid>
     );
   }
 }

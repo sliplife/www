@@ -37,4 +37,5 @@
 @linkColor     : #004D92;
 
 /* Form */
-@inputColor: rgba(0, 0, 0, 0.87);
+@inputBackground        : rgba(0, 0, 0, 0.16);
+@inputColor: rgba(255, 255, 255, .15);

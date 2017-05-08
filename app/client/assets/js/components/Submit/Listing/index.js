@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import { push, replace } from 'react-router-redux';
 import { bindActionCreators } from 'redux';
 import * as actionCreators from 'actions';
-import { Button, Divider, Dropdown, Form, Icon, Input, Segment, TextArea } from 'semantic-ui-react';
+import { Button, Divider, Dropdown, Form, Icon, Input, Label, Segment, TextArea } from 'semantic-ui-react';
 import { NProgress } from 'components';
 import tus from 'tus-js-client';
 
@@ -369,7 +369,7 @@ export default class SubmitListing extends React.Component {
             <Form.Field error={this.hasValidationError('location')} width='3'>
               <label>Location</label>
               <Dropdown fluid search selection
-                placeholder='Location'
+                placeholder='Property'
                 options={locationOptions}
                 name="location"
                 onChange={this.handleLocationChange}
@@ -379,7 +379,7 @@ export default class SubmitListing extends React.Component {
             <Form.Field error={this.hasValidationError('type')} width='4'>
               <label>Type</label>
               <Dropdown fluid search selection
-                placeholder='Type'
+                placeholder='Dockage'
                 options={typeOptions}
                 name="type"
                 onChange={this.handleTypeChange}
@@ -387,9 +387,9 @@ export default class SubmitListing extends React.Component {
               />
             </Form.Field>
             <Form.Field error={this.hasValidationError('terms')} width='3'>
-              <label>Terms</label>
+              <label>Pricing</label>
               <Dropdown fluid search selection
-                placeholder='Terms'
+                placeholder='Rent or Sale'
                 options={paymentTermsOptions}
                 name="terms"
                 onChange={this.handlePaymentTermsChange}
@@ -397,21 +397,28 @@ export default class SubmitListing extends React.Component {
               />
             </Form.Field>
             <Form.Field error={this.hasValidationError('price')} width='6'>
-              <label>Price</label>
+              <label>Cost</label>
                 <Input
-                  label={<Dropdown
-                      options={paymentTermTypeOptions}
-                      name="termType"
-                      onChange={this.handlePaymentTermTypeChange}
-                      value={this.state.listing.termType}
-                    />
-                  }
                   name='price'
                   labelPosition='right'
-                  placeholder='Price'
-                  onChange={this.handleChange}
-                  value={this.state.listing.price}
-                />
+                >
+                  <Label>
+                    <Icon name='dollar' />
+                  </Label>
+                  <input
+                    placeholder='US Dollars'
+                    onChange={this.handleChange}
+                    value={this.state.listing.price}
+                  />
+                  <Label>
+                    <Dropdown
+                        options={paymentTermTypeOptions}
+                        name="termType"
+                        onChange={this.handlePaymentTermTypeChange}
+                        value={this.state.listing.termType}
+                      />
+                  </Label>
+                </Input>
             </Form.Field>
           </Form.Group>
           <Divider horizontal>
@@ -426,6 +433,7 @@ export default class SubmitListing extends React.Component {
               <Input
                 name="street"
                 onChange={this.handleChange}
+                icon='marker'
                 placeholder='Street'
                 type="text"
                 value={this.state.listing.street}
@@ -438,6 +446,7 @@ export default class SubmitListing extends React.Component {
               <Input
                 name="city"
                 onChange={this.handleChange}
+                icon='marker'
                 placeholder='City'
                 type="text"
                 value={this.state.listing.city}
@@ -458,6 +467,7 @@ export default class SubmitListing extends React.Component {
               <Input
                 name="zip"
                 onChange={this.handleChange}
+                icon='marker'
                 placeholder='ZIP Code'
                 type="text"
                 value={this.state.listing.zip}
@@ -486,6 +496,7 @@ export default class SubmitListing extends React.Component {
               <Input
                 name="name"
                 onChange={this.handleChange}
+                icon='user'
                 placeholder='Name'
                 type="text"
                 value={this.state.listing.name}
@@ -496,6 +507,7 @@ export default class SubmitListing extends React.Component {
               <Input
                 name="phone"
                 onChange={this.handleChange}
+                icon='phone'
                 placeholder='Phone'
                 type="text"
                 value={this.state.listing.phone}
@@ -506,6 +518,7 @@ export default class SubmitListing extends React.Component {
               <Input
                 name="vhfChannel"
                 onChange={this.handleChange}
+                icon='signal'
                 placeholder='VHF Channel'
                 type="text"
                 value={this.state.listing.vhfChannel}
@@ -518,6 +531,7 @@ export default class SubmitListing extends React.Component {
               <Input
                 name="email"
                 onChange={this.handleChange}
+                icon='mail'
                 placeholder='Email'
                 type="text"
                 value={this.state.listing.email}
@@ -528,6 +542,7 @@ export default class SubmitListing extends React.Component {
               <Input
                 name="website"
                 onChange={this.handleChange}
+                icon='world'
                 placeholder='Website URL'
                 type="text"
                 value={this.state.listing.website}
@@ -546,6 +561,8 @@ export default class SubmitListing extends React.Component {
               <Input
                 name="length"
                 onChange={this.handleChange}
+                label='ft'
+                labelPosition='right'
                 placeholder='Max Length'
                 type="text"
                 value={this.state.listing.length}
@@ -556,6 +573,8 @@ export default class SubmitListing extends React.Component {
               <Input
                 name="beam"
                 onChange={this.handleChange}
+                label='ft'
+                labelPosition='right'
                 placeholder='Max Beam'
                 type="text"
                 value={this.state.listing.beam}
@@ -566,6 +585,8 @@ export default class SubmitListing extends React.Component {
               <Input
                 name="draw"
                 onChange={this.handleChange}
+                label='ft'
+                labelPosition='right'
                 placeholder='Max Draw'
                 type="text"
                 value={this.state.listing.draw}
@@ -576,6 +597,8 @@ export default class SubmitListing extends React.Component {
               <Input
                 name="clearance"
                 onChange={this.handleChange}
+                label='ft'
+                labelPosition='right'
                 placeholder='Max Clearance'
                 type="text"
                 value={this.state.listing.clearance}

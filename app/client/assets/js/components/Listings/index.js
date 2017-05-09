@@ -207,7 +207,7 @@ export default class Home extends React.Component {
                       <Form.Field>
                         <Input>
                           <Icon fitted
-                            name='sidebar'
+                            name={this.state.sidebarVisible ? 'left circle arrow' : 'sidebar'}
                             size='huge'
                             onClick={this.toggleSidebarVisibility}
                             className='mobile only'

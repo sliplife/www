@@ -129,4 +129,12 @@ see https://github.com/Semantic-Org/Semantic-UI/issues/1114
   .mobile.only {
     display: none !important;
   }
+  /* Force mobile sidebar to close if visible when width
+  of the window changes on resize or device orientation. */
+  .ui.sidebar.left.thin.push.visible {
+    transform: translate3d(-100%,0,0);
+    &~.pusher {
+      transform: translate3d(0,0,0) !important;
+    }
+  }
 }

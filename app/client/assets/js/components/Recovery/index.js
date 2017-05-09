@@ -179,9 +179,11 @@ export default class Recovery extends React.Component {
           <Form autoComplete='off'>
             {this.renderSteps()}
           </Form>
-          <Message style={{ textAlign: 'center' }}>
-            Already know your password? <Link to='/login'>Log In</Link>
-          </Message>
+          <Segment>
+            <Message style={{ textAlign: 'center' }}>
+              Already know your password? <Link to='/login'>Log In</Link>
+            </Message>
+          </Segment>
         </Grid.Column>
         <Grid.Column width='4' only='computer' />
       </Grid>

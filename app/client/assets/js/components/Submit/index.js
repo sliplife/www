@@ -144,7 +144,7 @@ export default class Submit extends React.Component {
           <Grid>
             <Grid.Column width='4' only='computer' />
             <Grid.Column width='16' computer='8'>
-              <Segment attached='bottom'>
+              <Segment stacked attached='bottom'>
                 <div className="ui vertical center aligned very padded segment">
                   <h2 className="ui center aligned icon header">
                     <i className={'circular anchor icon'} /> Submit
@@ -160,9 +160,11 @@ export default class Submit extends React.Component {
                   content='Get Started'
                 />
               </Segment>
-              <Message style={{ textAlign: 'center' }}>
-                Your first listing is free!
-              </Message>
+              <Segment>
+                <Message style={{ textAlign: 'center' }}>
+                  Your first listing is free!
+                </Message>
+              </Segment>
             </Grid.Column>
             <Grid.Column width='4' only='computer' />
           </Grid>

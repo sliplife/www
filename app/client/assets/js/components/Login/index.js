@@ -116,9 +116,11 @@ export default class Login extends React.Component {
               />
             </Form>
           </Segment>
-          <Message style={{ textAlign: 'center' }}>
-            New to us? <Link to='/signup'>Sign Up</Link>
-          </Message>
+          <Segment>
+            <Message style={{ textAlign: 'center' }}>
+              New to us? <Link to='/signup'>Sign Up</Link>
+            </Message>
+          </Segment>
         </Grid.Column>
         <Grid.Column width='4' only='computer' />
       </Grid>

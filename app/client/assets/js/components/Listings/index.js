@@ -214,7 +214,6 @@ export default class Home extends React.Component {
                             style={{ color: 'rgba(0,0,0, .35)', cursor: 'pointer', marginRight: '.25em' }}
                           />
                           <Input
-                            size='large'
                             icon='search'
                             iconPosition='left'
                             name="query"

@@ -188,14 +188,14 @@ export default class Home extends React.Component {
   //   }
 
     return (
-      <Grid>
-        <Grid.Column computer='4' only='computer' style={{ padding: '3em 0 0 2em' }}>
+      <Grid padded>
+        <Grid.Column computer='4' only='computer' style={{ padding: '3em 1em' }}>
           <ListingsFilter handleSearchFilter={this.handleSearchFilter} filter={this.state.filter} />
         </Grid.Column>
-        <Grid.Column computer='12' width='16'>
+        <Grid.Column computer='12' width='16' style={{ padding: '1em 0' }}>
           <Sidebar.Pushable>
             <Sidebar animation='push' width='wide' visible={this.state.sidebarVisible} icon='labeled'>
-              <Segment basic style={{ padding: '2em' }}>
+              <Segment basic style={{ padding: '2em 1em' }}>
                 <ListingsFilter handleSearchFilter={this.handleSearchFilter} filter={this.state.filter} />
               </Segment>
             </Sidebar>

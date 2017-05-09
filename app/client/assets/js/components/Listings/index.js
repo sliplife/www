@@ -7,7 +7,7 @@ import { push } from 'react-router-redux';
 import { Link } from 'react-router';
 import { bindActionCreators } from 'redux';
 import * as actionCreators from 'actions';
-import { Button, Form, Grid, Icon, Input, Item, Label, Segment } from 'semantic-ui-react';
+import { Button, Form, Grid, Icon, Input, Item, Label, Segment, Sidebar } from 'semantic-ui-react';
 import { Loading, NProgress } from 'components';
 import Empty from './Empty';
 import NoMatches from './NoMatches';
@@ -40,6 +40,7 @@ export default class Home extends React.Component {
     super(props);
     this.search = debounce(this.search, 500);
     this.handleSearchFilter = this.handleSearchFilter.bind(this);
+    this.toggleSidebarVisibility = this.toggleSidebarVisibility.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.bindWindowScroll = this.bindWindowScroll.bind(this);
     this.unbindWindowScroll = this.unbindWindowScroll.bind(this);
@@ -48,6 +49,7 @@ export default class Home extends React.Component {
       isLoading: true,
       isPaging: false,
       isSearching: false,
+      sidebarVisible: false,
       filter: {
         query: '',
         terms: '',
@@ -74,6 +76,10 @@ export default class Home extends React.Component {
 
     this.unbindWindowScroll();
     this.props.actions.listings.reset();
+  }
+  toggleSidebarVisibility() {
+
+    this.setState({ sidebarVisible: !this.state.sidebarVisible });
   }
   bindWindowScroll() {
 
@@ -187,77 +193,96 @@ export default class Home extends React.Component {
           <ListingsFilter handleSearchFilter={this.handleSearchFilter} filter={this.state.filter} />
         </Grid.Column>
         <Grid.Column computer='12' width='16'>
-          <Grid>
-            <Grid.Row>
-              <Grid.Column width='16'>
-                <Segment as={Form} onSubmit={this.handleSubmit} attached='bottom'>
-                  <Form.Field>
-                    <Input
-                      icon='search'
-                      iconPosition='left'
-                      name="query"
-                      placeholder='Search dock descriptions'
-                      type="text"
-                      value={this.state.filter.query}
-                      loading={this.state.isSearching}
-                      onChange={(event) => this.handleSearchFilter({ query: event.target.value })}
-                    />
-                  </Form.Field>
-                </Segment>
-              </Grid.Column>
-            </Grid.Row>
-            {(this.state.filter.state || this.state.filter.city || this.state.filter.location || this.state.filter.type || this.state.filter.terms) ? (
-              <Grid.Row>
-                <Grid.Column width='16'>
-                  <Segment>
-                    {(!this.state.filter.state) ? '' : <Label icon='remove' content={capitalize(this.state.filter.state)} as={Link} onClick={() => this.handleSearchFilter({ state: '' })} />}
-                    {(!this.state.filter.city) ? '' : <Label icon='remove' content={this.state.filter.city.split(' ').map(capitalize).join(' ')} as={Link} onClick={() => this.handleSearchFilter({ city: '' })} />}
-                    {(!this.state.filter.location) ? '' : <Label icon='remove' content={this.state.filter.location.split('_').map(capitalize).join(' ')} as={Link} onClick={() => this.handleSearchFilter({ location: '' })} />}
-                    {(!this.state.filter.type) ? '' : <Label icon='remove' content={this.state.filter.type.split('_').map(capitalize).join(' ')} as={Link} onClick={() => this.handleSearchFilter({ type: '' })} />}
-                    {(!this.state.filter.terms) ? '' : <Label icon='remove' content={`For ${capitalize(this.state.filter.terms)}`} as={Link} onClick={() => this.handleSearchFilter({ terms: '' })} />}
-                    {/*<Label content='Create Alert' color='orange' icon='announcement' as={Link} />*/}
-                  </Segment>
-                </Grid.Column>
-              </Grid.Row>
-            ) : ''}
-            <Grid.Row>
-              <Grid.Column width='16'>
-                {this.props.children ? React.cloneElement(this.props.children) :
-                  <Segment>
-                    <Item.Group divided>
-                      {this.props.listings.listings.length === 0 ? ((this.state.isLoading) ? <Loading /> : <NoMatches />) : this.props.listings.listings.map((listing) => {
+          <Sidebar.Pushable>
+            <Sidebar animation='push' width='wide' visible={this.state.sidebarVisible} icon='labeled'>
+              <Segment basic style={{ padding: '2em' }}>
+                <ListingsFilter handleSearchFilter={this.handleSearchFilter} filter={this.state.filter} />
+              </Segment>
+            </Sidebar>
+            <Sidebar.Pusher>
+              <Grid>
+                <Grid.Row>
+                  <Grid.Column width='16'>
+                    <Segment as={Form} onSubmit={this.handleSubmit} attached='bottom'>
+                      <Form.Field>
+                        <Input>
+                          <Icon fitted
+                            name='sidebar'
+                            size='huge'
+                            onClick={this.toggleSidebarVisibility}
+                            className='mobile only'
+                            style={{ color: 'rgba(0,0,0, .35)', cursor: 'pointer', marginRight: '.25em' }}
+                          />
+                          <Input
+                            size='large'
+                            icon='search'
+                            iconPosition='left'
+                            name="query"
+                            placeholder='Search dock descriptions'
+                            type="text"
+                            value={this.state.filter.query}
+                            loading={this.state.isSearching}
+                            onChange={(event) => this.handleSearchFilter({ query: event.target.value })}
+                          />
+                        </Input>
+                      </Form.Field>
+                    </Segment>
+                  </Grid.Column>
+                </Grid.Row>
+                {(this.state.filter.state || this.state.filter.city || this.state.filter.location || this.state.filter.type || this.state.filter.terms) ? (
+                  <Grid.Row>
+                    <Grid.Column width='16'>
+                      <Segment>
+                        {(!this.state.filter.state) ? '' : <Label icon='remove' content={capitalize(this.state.filter.state)} as={Link} onClick={() => this.handleSearchFilter({ state: '' })} />}
+                        {(!this.state.filter.city) ? '' : <Label icon='remove' content={this.state.filter.city.split(' ').map(capitalize).join(' ')} as={Link} onClick={() => this.handleSearchFilter({ city: '' })} />}
+                        {(!this.state.filter.location) ? '' : <Label icon='remove' content={this.state.filter.location.split('_').map(capitalize).join(' ')} as={Link} onClick={() => this.handleSearchFilter({ location: '' })} />}
+                        {(!this.state.filter.type) ? '' : <Label icon='remove' content={this.state.filter.type.split('_').map(capitalize).join(' ')} as={Link} onClick={() => this.handleSearchFilter({ type: '' })} />}
+                        {(!this.state.filter.terms) ? '' : <Label icon='remove' content={`For ${capitalize(this.state.filter.terms)}`} as={Link} onClick={() => this.handleSearchFilter({ terms: '' })} />}
+                        {/*<Label content='Create Alert' color='orange' icon='announcement' as={Link} />*/}
+                      </Segment>
+                    </Grid.Column>
+                  </Grid.Row>
+                ) : ''}
+                <Grid.Row>
+                  <Grid.Column width='16'>
+                    {this.props.children ? React.cloneElement(this.props.children) :
+                      <Segment>
+                        <Item.Group divided>
+                          {this.props.listings.listings.length === 0 ? ((this.state.isLoading) ? <Loading /> : <NoMatches />) : this.props.listings.listings.map((listing) => {
 
-                        const imageUrl = (listing.uploads.length > 0) ? `${listing.uploads[0].url}?width=480&height=398` : '/assets/images/image.png';
-                        const price = <FormattedNumber value={listing.price} style='currency' currency='usd' />;
-                        const imageLabel = <Label attached='top'>{price} {listing.termType === 'by_foot' ? 'per foot' : ''}</Label>;
-                        return (
-                          <Item key={listing.id}>
+                            const imageUrl = (listing.uploads.length > 0) ? `${listing.uploads[0].url}?width=480&height=398` : '/assets/images/image.png';
+                            const price = <FormattedNumber value={listing.price} style='currency' currency='usd' />;
+                            const imageLabel = <Label attached='top'>{price} {listing.termType === 'by_foot' ? 'per foot' : ''}</Label>;
+                            return (
+                              <Item key={listing.id}>
 
-                            <Item.Image as={Link} to={`/listings/${listing.id}`} src={imageUrl} label={{ content: imageLabel }} />
-                            <Item.Content>
-                              <Item.Header as={Link} to={`/listings/${listing.id}`}>{listing.city}</Item.Header>
-                              <Item.Meta>
-                                <span className='cinema'>{listing.locationName} in {listing.state}, {listing.zip}</span>
-                              </Item.Meta>
-                              <Item.Description><p>{listing.description}</p></Item.Description>
-                              <Item.Extra>
-                                {listing.isNew  ? <Label color='orange' size='mini'>New</Label> : null }
-                                <Label size='mini'>{listing.typeName}</Label>
-                                <Button primary floated='right' as={Link} to={`/listings/${listing.id}`}>
-                                  For {capitalize(listing.terms)}
-                                  <Icon name='right chevron' />
-                                </Button>
-                              </Item.Extra>
-                            </Item.Content>
-                          </Item>
-                        );
-                      })}
-                    </Item.Group>
-                  </Segment>
-                }
-              </Grid.Column>
-            </Grid.Row>
-          </Grid>
+                                <Item.Image as={Link} to={`/listings/${listing.id}`} src={imageUrl} label={{ content: imageLabel }} />
+                                <Item.Content>
+                                  <Item.Header as={Link} to={`/listings/${listing.id}`}>{listing.city}</Item.Header>
+                                  <Item.Meta>
+                                    <span className='cinema'>{listing.locationName} in {listing.state}, {listing.zip}</span>
+                                  </Item.Meta>
+                                  <Item.Description><p>{listing.description}</p></Item.Description>
+                                  <Item.Extra>
+                                    {listing.isNew  ? <Label color='orange' size='mini'>New</Label> : null }
+                                    <Label size='mini'>{listing.typeName}</Label>
+                                    <Button primary floated='right' as={Link} to={`/listings/${listing.id}`}>
+                                      For {capitalize(listing.terms)}
+                                      <Icon name='right chevron' />
+                                    </Button>
+                                  </Item.Extra>
+                                </Item.Content>
+                              </Item>
+                            );
+                          })}
+                        </Item.Group>
+                      </Segment>
+                    }
+                  </Grid.Column>
+                </Grid.Row>
+              </Grid>
+            </Sidebar.Pusher>
+          </Sidebar.Pushable>
         </Grid.Column>
       </Grid>
     );

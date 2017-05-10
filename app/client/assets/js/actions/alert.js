@@ -4,7 +4,7 @@ import biu from 'biu.js';
 
 const alertHandler = createAction('ALERT');
 
-export const error = (exception) => {
+export const error = (exception, selector = '.twelve.wide.column') => {
 
   return (dispatch) => {
 
@@ -13,19 +13,19 @@ export const error = (exception) => {
       message = exception.message;
     }
     biu(message, {
-      el: document.querySelector('.twelve.wide.column') || document.body,
+      el: document.querySelector(selector) || document.body,
       type: 'danger', pop: false, autoHide: false, hideOnClick: true
     });
     return dispatch(alertHandler(exception));
   };
 };
 
-export const success = (message) => {
+export const success = (message, selector = '.twelve.wide.column') => {
 
   return (dispatch) => {
 
     biu(message, {
-      el: document.querySelector('.twelve.wide.column') || document.body,
+      el: document.querySelector() || document.body,
       type: 'success', pop: false, autoHide: true, hideOnClick: true
     });
     return dispatch(alertHandler({ message }));

@@ -6,6 +6,7 @@ import * as api from './api';
 import * as auth from './auth';
 import * as listings from './listings';
 import * as stripe from './stripe';
+import * as subscriptions from './subscriptions';
 import * as tokens from './tokens';
 import * as uploads from './uploads';
 
@@ -16,6 +17,7 @@ export default combineReducers({
   listings: listings.default,
   routing,
   stripe: stripe.default,
+  subscriptions: subscriptions.default,
   tokens: tokens.default,
   uploads: uploads.default
 });

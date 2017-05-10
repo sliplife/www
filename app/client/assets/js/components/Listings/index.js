@@ -1,5 +1,7 @@
 import debounce from 'lodash/debounce';
 import capitalize from 'lodash/capitalize';
+import omitBy from 'lodash/omitby';
+import isEmpty from 'lodash/isempty';
 import React, { PropTypes } from 'react';
 import { FormattedNumber } from 'react-intl';
 import { connect } from 'react-redux';
@@ -7,11 +9,12 @@ import { push } from 'react-router-redux';
 import { Link } from 'react-router';
 import { bindActionCreators } from 'redux';
 import * as actionCreators from 'actions';
-import { Button, Form, Grid, Icon, Input, Item, Label, Segment, Sidebar } from 'semantic-ui-react';
+import { Button, Form, Grid, Header, Icon, Input, Item, Label, Modal, Segment, Sidebar } from 'semantic-ui-react';
 import { Loading, NProgress } from 'components';
 import Empty from './Empty';
 import NoMatches from './NoMatches';
 import ListingsFilter from './Filter';
+import SubscribeModal from './SubscribeModal';
 
 const mapStateToProps = (state) => ({
   ...state.auth,
@@ -22,7 +25,8 @@ const mapDispatchToProps = (dispatch) => ({
   actions: {
     alert: bindActionCreators(actionCreators.alert, dispatch),
     auth: bindActionCreators(actionCreators.auth, dispatch),
-    listings: bindActionCreators(actionCreators.listings, dispatch)
+    listings: bindActionCreators(actionCreators.listings, dispatch),
+    subscriptions: bindActionCreators(actionCreators.subscriptions, dispatch)
   }
 });
 
@@ -40,6 +44,10 @@ export default class Home extends React.Component {
     super(props);
     this.search = debounce(this.search, 500);
     this.handleSearchFilter = this.handleSearchFilter.bind(this);
+    this.getFilterMessage = this.getFilterMessage.bind(this);
+    this.getFilterHashObject = this.getFilterHashObject.bind(this);
+    this.subscribeModalOpen = this.subscribeModalOpen.bind(this);
+    this.subscribeModalClose = this.subscribeModalClose.bind(this);
     this.toggleSidebarVisibility = this.toggleSidebarVisibility.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.bindWindowScroll = this.bindWindowScroll.bind(this);
@@ -50,6 +58,7 @@ export default class Home extends React.Component {
       isPaging: false,
       isSearching: false,
       sidebarVisible: false,
+      isSubscribeModalOpen: false,
       filter: {
         query: '',
         terms: '',
@@ -133,6 +142,55 @@ export default class Home extends React.Component {
   handleSubmit(event) {
 
     event.preventDefault();
+  }
+  getFilterHashObject() {
+
+    const hashObject = omitBy({
+      city: this.state.filter.city,
+      location: this.state.filter.location,
+      state: this.state.filter.state,
+      terms: this.state.filter.terms,
+      type: this.state.filter.type
+    }, isEmpty);
+    return hashObject;
+  }
+  getFilterMessage() {
+
+    const message = [];
+    if (this.state.filter.location) {
+      message.push(this.state.filter.location.split('_').join(' '));
+    }
+    if (this.state.filter.type) {
+      if (this.state.filter.location) {
+        message.push('with');
+      }
+      message.push(this.state.filter.type.split('_').join(' '));
+    }
+    if (this.state.filter.terms) {
+      message.push(`for ${this.state.filter.terms}`);
+    }
+    if ((this.state.filter.city || this.state.filter.state) && (this.state.filter.location || this.state.filter.type || this.state.filter.terms)) {
+      message.push('in');
+    }
+    if (this.state.filter.city && this.state.filter.state) {
+      message.push(`${this.state.filter.city.split(' ').map(capitalize).join(' ')}, ${this.state.filter.state}`);
+    }
+    if (!this.state.filter.city && this.state.filter.state) {
+      message.push(this.state.filter.state);
+    }
+    if (!this.state.filter.state && this.state.filter.city) {
+      message.push(this.state.filter.city.split(' ').map(capitalize).join(' '));
+    }
+    return message.join(' ');
+  }
+  subscribeModalOpen() {
+
+    this.setState({ isSubscribeModalOpen: true });
+  }
+  subscribeModalClose() {
+
+    this.setState({ isSubscribeModalOpen: false });
+    this.props.actions.subscriptions.reset();
   }
   renderSearchInput() {
 
@@ -232,12 +290,18 @@ export default class Home extends React.Component {
                   <Grid.Row>
                     <Grid.Column width='16'>
                       <Segment>
-                        {(!this.state.filter.state) ? '' : <Label icon='remove' content={capitalize(this.state.filter.state)} as={Link} onClick={() => this.handleSearchFilter({ state: '' })} />}
-                        {(!this.state.filter.city) ? '' : <Label icon='remove' content={this.state.filter.city.split(' ').map(capitalize).join(' ')} as={Link} onClick={() => this.handleSearchFilter({ city: '' })} />}
-                        {(!this.state.filter.location) ? '' : <Label icon='remove' content={this.state.filter.location.split('_').map(capitalize).join(' ')} as={Link} onClick={() => this.handleSearchFilter({ location: '' })} />}
-                        {(!this.state.filter.type) ? '' : <Label icon='remove' content={this.state.filter.type.split('_').map(capitalize).join(' ')} as={Link} onClick={() => this.handleSearchFilter({ type: '' })} />}
-                        {(!this.state.filter.terms) ? '' : <Label icon='remove' content={`For ${capitalize(this.state.filter.terms)}`} as={Link} onClick={() => this.handleSearchFilter({ terms: '' })} />}
-                        {/*<Label content='Create Alert' color='orange' icon='announcement' as={Link} />*/}
+                        {(!this.state.filter.state) ? '' : <Label icon='remove' content={capitalize(this.state.filter.state)} as={Link} onClick={() => this.handleSearchFilter({ state: '' })} style={{ margin: '.14285714em' }} />}
+                        {(!this.state.filter.city) ? '' : <Label icon='remove' content={this.state.filter.city.split(' ').map(capitalize).join(' ')} as={Link} onClick={() => this.handleSearchFilter({ city: '' })} style={{ margin: '.14285714em' }} />}
+                        {(!this.state.filter.location) ? '' : <Label icon='remove' content={this.state.filter.location.split('_').map(capitalize).join(' ')} as={Link} onClick={() => this.handleSearchFilter({ location: '' })} style={{ margin: '.14285714em' }} />}
+                        {(!this.state.filter.type) ? '' : <Label icon='remove' content={this.state.filter.type.split('_').map(capitalize).join(' ')} as={Link} onClick={() => this.handleSearchFilter({ type: '' })} style={{ margin: '.14285714em' }} />}
+                        {(!this.state.filter.terms) ? '' : <Label icon='remove' content={`For ${capitalize(this.state.filter.terms)}`} as={Link} onClick={() => this.handleSearchFilter({ terms: '' })} style={{ margin: '.14285714em' }} />}
+                        <SubscribeModal
+                          isSubscribeModalOpen={this.state.isSubscribeModalOpen}
+                          subscribeModalOpen={this.subscribeModalOpen}
+                          subscribeModalClose={this.subscribeModalClose}
+                          getFilterHashObject={this.getFilterHashObject}
+                          getFilterMessage={this.getFilterMessage}
+                        />
                       </Segment>
                     </Grid.Column>
                   </Grid.Row>

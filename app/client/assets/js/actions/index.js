@@ -3,5 +3,6 @@ export * as api from './api';
 export * as auth from './auth';
 export * as listings from './listings';
 export * as stripe from './stripe';
+export * as subscriptions from './subscriptions';
 export * as tokens from './tokens';
 export * as uploads from './uploads';

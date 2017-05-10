@@ -1,0 +1,16 @@
+/*******************************
+         Modal
+*******************************/
+
+@background: url(/assets/images/waterline-top-bg.png) repeat-x #095493;
+
+/* Header */
+@headerBackground: rgba(0, 0, 0, .32);
+@headerColor: white;
+
+/* Content */
+@contentBackground: rgba(0, 0, 0, .16);
+@contentPadding: 2.2em 1.5rem;
+
+/* Actions */
+@actionBackground: rgba(0, 0, 0, .16);

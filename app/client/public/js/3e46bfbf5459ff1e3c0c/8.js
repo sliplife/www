@@ -1,0 +1,1 @@
+webpackJsonp([8],{1299:function(n,t,e){n.exports={path:"listings/:id",getComponent:function(n,t){e.e(9).then(function(){var n=e(1328).default;t(null,n)}.bind(null,e)).catch(e.oe)}}}});
